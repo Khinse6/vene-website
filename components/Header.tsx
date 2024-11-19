@@ -2,17 +2,27 @@ import Link from 'next/link';
 
 export default function Header() {
 	return (
-		<header className="bg-veneorange text-veneblue p-4">
-			<div className="max-w-7xl mx-auto flex justify-between items-center">
-				<h1 className="text-2xl font-bold">
-					<Link href="/">My Website</Link>
-				</h1>
-				<nav className="flex space-x-4">
-					<Link href="/" className="hover:text-gray-200">Home</Link>
-					<Link href="/about" className="hover:text-gray-200">About</Link>
-					<Link href="/articles" className="hover:text-gray-200">Articles</Link>
-				</nav>
-			</div>
+		<header className=" text-veneblue p-2  bg-veneblack">
+			<nav className="flex text-xl space-x-4 items-center font-bold mx-[25%]">
+				{/* Left Navigation */}
+				<div className="flex flex-1 justify-evenly">
+					<Link href="/teams" className="hover:text-veneorange uppercase">Equipas</Link>
+					<Link href="/about" className="hover:text-veneorange uppercase">Sobre Nós</Link>
+				</div>
+				
+				{/* Logo */}
+				<Link href="/" >
+					<img src='images/vengeance_logo_mascote.png' width="80"/>
+				</Link>
+
+				{/* Right Navigation */}
+				<div className="flex flex-1 justify-evenly">
+					<Link href="/events" className="hover:text-veneorange uppercase">Eventos</Link>
+					<Link href="/news" className="hover:text-veneorange uppercase">Notícias</Link>
+				</div>
+				
+				
+			</nav>
 		</header>
 	);
 }
