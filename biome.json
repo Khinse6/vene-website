@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": ["node_modules", ".next", "public"]
+		"ignore": ["node_modules", ".next"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -17,7 +17,8 @@
 		"indentStyle": "tab",
 		"indentWidth": 2,
 		"lineWidth": 80,
-		"lineEnding": "lf"
+		"lineEnding": "lf",
+		"bracketSpacing": true
 	},
 	"organizeImports": {
 		"enabled": true
@@ -25,7 +26,18 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+			"nursery": {
+				"useSortedClasses": {
+					"level": "warn",
+					"options": {
+						"attributes": ["classList"],
+						"functions": ["clsx", "cva", "tw"]
+					},
+					"fix": "unsafe"
+				},
+				"noIrregularWhitespace": { "level": "warn" }
+			}
 		}
 	},
 	"javascript": {

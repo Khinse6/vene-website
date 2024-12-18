@@ -1,5 +1,5 @@
-import Link from "next/link";
 import type { MatchProps } from "@/components/types";
+import Link from "next/link";
 
 const MatchResult: React.FC<{ match: MatchProps }> = ({ match }) => {
 	const formattedDate = new Date(match.date).toLocaleDateString("en-GB", {
@@ -9,15 +9,17 @@ const MatchResult: React.FC<{ match: MatchProps }> = ({ match }) => {
 	});
 
 	return (
-		<div className='flex flex-col w-40 items-center justify-center bg-slate-500 rounded-3xl p-5'>
-			<img className='w-20' src={match.logoteam1} alt={match.team1} />
-			<p className='text-5xl/10 max-w-[5ch] mx-auto text-center my-4'>
-				<span className='block'>{match.score1}</span>
-				<span className='block'>-</span>
-				<span className='block'>{match.score2}</span>
-			</p>
-			<img className='w-20' src={match.logoteam2} alt={match.team2} />
-			<p className='text-xl text-black mt-4'>{formattedDate}</p>
+		<div className='flex w-fit flex-col items-center gap-5 rounded-3xl bg-slate-500 p-5'>
+			<div className='flex w-fit flex-col items-center justify-between gap-5'>
+				<img className='h-fit w-20' src={match.logoteam1} alt={match.team1} />
+				<p className='text-center text-5xl/10'>
+					<span className='block'>{match.score1}</span>
+					<span className='block'>-</span>
+					<span className='block'>{match.score2}</span>
+				</p>
+				<img className='h-fit w-20' src={match.logoteam2} alt={match.team2} />
+			</div>
+			<p className='text-black text-xl'>{formattedDate}</p>
 		</div>
 	);
 };

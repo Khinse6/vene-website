@@ -2,14 +2,14 @@ import Link from "next/link";
 
 export default function Header() {
 	return (
-		<header className=' text-veneblue p-2  bg-veneblack sticky top-0'>
-			<nav className='flex text-xl space-x-4 items-center font-bold mx-[25%]'>
+		<header className='sticky top-0 bg-veneblack p-2 font-goldman text-veneblue uppercase'>
+			<nav className='mx-[25%] flex items-center space-x-4 font-bold text-xl'>
 				{/* Left Navigation */}
 				<div className='flex flex-1 justify-evenly'>
-					<Link href='/teams' className='hover:text-veneorange uppercase'>
+					<Link href='/teams' className='hover:text-veneorange'>
 						Equipas
 					</Link>
-					<Link href='/about' className='hover:text-veneorange uppercase'>
+					<Link href='/about' className='hover:text-veneorange'>
 						Sobre Nós
 					</Link>
 				</div>
@@ -25,10 +25,10 @@ export default function Header() {
 
 				{/* Right Navigation */}
 				<div className='flex flex-1 justify-evenly'>
-					<Link href='/events' className='hover:text-veneorange uppercase'>
+					<Link href='/events' className='uppercase hover:text-veneorange'>
 						Eventos
 					</Link>
-					<Link href='/news' className='hover:text-veneorange uppercase'>
+					<Link href='/news' className='uppercase hover:text-veneorange'>
 						Notícias
 					</Link>
 				</div>

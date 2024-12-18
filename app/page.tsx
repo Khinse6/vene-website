@@ -15,7 +15,7 @@ const matchData: MatchProps = {
 export default function Home() {
 	return (
 		<div className='h-screen'>
-			<h1 className='text-3xl font-bold underline'>Hello world!</h1>
+			<h1 className='font-goldman text-3xl'>Hello world!</h1>
 			<MatchResult match={matchData} />
 		</div>
 	);

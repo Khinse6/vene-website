@@ -12,6 +12,11 @@ export default {
 				veneblue: "#91e6fa",
 				veneorange: "#ffa200",
 				veneblack: "#1d2427"
+			},
+			fontFamily: {
+				goldman: ['"Goldman"', "sans-serif"],
+				geist: ['"GeistVF"', "sans-serif"],
+				geistMono: ['"GeistMono"', "monospace"]
 			}
 		}
 	},

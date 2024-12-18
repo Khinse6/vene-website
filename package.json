@@ -8,6 +8,7 @@
 		"start": "next start",
 		"check": "npx biome check",
 		"check:fix": "npx biome check --fix",
+		"check:fix:unsafe": "npx biome check --fix --unsafe",
 		"format": "npx biome format",
 		"format:write": "npx biome format --write"
 	},
