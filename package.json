@@ -15,6 +15,7 @@
 		"format:write": "npx biome format --write"
 	},
 	"dependencies": {
+		"@nuxtjs/strapi": "^2.0.0",
 		"@nuxtjs/tailwindcss": "^6.12.2",
 		"nuxt": "^3.14.1592",
 		"vue": "latest",
