@@ -1,5 +1,5 @@
 <template>
-  <header class="sticky top-0 bg-veneblack p-2 font-goldman text-veneblue uppercase">
+  <header class="sticky top-0 bg-venegray2 p-2 font-goldman text-veneblue uppercase">
     <nav class="mx-[25%] flex items-center font-bold text-xl">
       <!-- Left Navigation -->
       <div class="flex flex-1 justify-evenly">

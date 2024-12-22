@@ -11,7 +11,8 @@ export default {
 			colors: {
 				veneblue: "#91e6fa",
 				veneorange: "#ffa200",
-				veneblack: "#1d2427"
+				venegray1: "#1d2427",
+				venegray2: "#283338"
 			},
 			fontFamily: {
 				goldman: ['"Goldman"', "sans-serif"],
