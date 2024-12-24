@@ -15,9 +15,7 @@ export default {
 				venegray2: "#283338"
 			},
 			fontFamily: {
-				goldman: ['"Goldman"', "sans-serif"],
-				geist: ['"GeistVF"', "sans-serif"],
-				geistMono: ['"GeistMono"', "monospace"]
+				goldman: ["Goldman", "sans-serif"]
 			}
 		}
 	},
