@@ -4,14 +4,29 @@ import gql from "@rollup/plugin-graphql";
 export default defineNuxtConfig({
 	devtools: { enabled: true },
 	compatibilityDate: "2024-12-20",
-	modules: ["@nuxtjs/tailwindcss", "@nuxtjs/strapi", "@nuxtjs/seo"],
+	modules: [
+		"@nuxtjs/strapi",
+		"@nuxtjs/seo",
+		"@nuxt/ui",
+		"@nuxt/fonts",
+		"@nuxt/image"
+	],
 	runtimeConfig: {
 		strapi: {
 			url: "http://localhost:1337"
+		},
+		public: {
+			strapi: {
+				url: "http://localhost:1337"
+			}
 		}
+	},
+	image: {
+		strapi: { baseURL: "http://localhost:1337" }
 	},
 	vite: {
 		plugins: [gql()]
 	},
-	css: ["@/assets/css/fonts.css"]
+	imports: { dirs: ["types"] },
+	nitro: { imports: { dirs: ["types"] } }
 });

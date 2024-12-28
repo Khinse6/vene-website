@@ -4,9 +4,4 @@
 	</div>
 </template>
 
-<script setup lang="ts">
-definePageMeta({
-	title: "Vengeance Experts",
-	description: "An E-sports Organization"
-});
-</script>
+<script setup lang="ts"></script>

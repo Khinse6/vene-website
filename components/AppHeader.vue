@@ -2,9 +2,9 @@
 	<header
 		class="sticky top-0 bg-venegray1 font-goldman text-veneblue uppercase"
 	>
-		<nav class="mx-[2%] p-5 flex font-bold justify-between">
+		<nav class="mx-[2%] p-3 flex font-bold justify-between items-center">
 			<NuxtLink
-				class="flex items-center gap-5 h-20 hover:text-veneorange"
+				class="flex items-center gap-5 h-16 hover:text-veneorange"
 				to="/"
 			>
 				<img
@@ -18,21 +18,17 @@
 				</div>
 			</NuxtLink>
 
-			<div class="flex gap-16">
-				<NuxtLink to="/teams" class="hover:text-veneorange content-center"
+			<div class="flex gap-16 h-fit">
+				<NuxtLink to="/teams" class="hover:text-veneorange content-center h-fit"
 					>Equipas</NuxtLink
 				>
-				<NuxtLink to="./about" class="hover:text-veneorange content-center"
+				<NuxtLink to="./about" class="hover:text-veneorange h-fit"
 					>Sobre</NuxtLink
 				>
-				<NuxtLink
-					to="/events"
-					class="uppercase hover:text-veneorange content-center"
+				<NuxtLink to="/events" class="uppercase hover:text-veneorange h-fit"
 					>Eventos</NuxtLink
 				>
-				<NuxtLink
-					to="/news"
-					class="uppercase hover:text-veneorange content-center"
+				<NuxtLink to="/news" class="uppercase hover:text-veneorange h-fit"
 					>Notícias</NuxtLink
 				>
 			</div>
@@ -42,6 +38,6 @@
 
 <script>
 export default {
-	name: "AppHeader",
+	name: "AppHeader"
 };
 </script>

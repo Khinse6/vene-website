@@ -1,0 +1,15 @@
+query GetTeams(
+	$filters: TeamFiltersInput
+	$pagination: PaginationArg
+	$sort: [String]
+) {
+	teams(filters: $filters, pagination: $pagination, sort: $sort) {
+		name
+		game {
+			name
+		}
+		cover{
+			url
+		}
+	}
+}

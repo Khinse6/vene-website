@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<AppHeader />
-		<slot />
+		<AppHeader class="z-[1000]" />
+		<div class="mb-20"><slot /></div>
 	</div>
 </template>
 

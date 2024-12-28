@@ -3,6 +3,6 @@
 	"extends": "./.nuxt/tsconfig.json",
 	"compilerOptions": {
 		"types": ["@nuxtjs/strapi"],
-		"typeRoots": ["./types"]
+		"typeRoots": ["@/types"]
 	}
 }
