@@ -1,7 +1,9 @@
 <template>
 	<div>
 		<AppHeader class="z-[1000]" />
-		<div class="mb-20"><slot /></div>
+		<div class="flex flex-col my-10 mx-[5%] items-center">
+			<slot />
+		</div>
 	</div>
 </template>
 

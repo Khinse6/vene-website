@@ -4,6 +4,7 @@ query GetMembers(
 	$sort: [String]
 ) {
 	members(filters: $filters, pagination: $pagination, sort: $sort) {
+		nick
 		name
 		team {
 			name

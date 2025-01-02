@@ -3,10 +3,8 @@ import type { Team } from "./Team";
 export type Match = {
 	name?: string;
 	date: string;
-	details: MatchDetails[];
-};
-
-type MatchDetails = {
-	team: Team;
-	score: number;
+	winner_team: Team;
+	loser_team: Team;
+	winner_score: number;
+	loser_score: number;
 };

@@ -3,18 +3,23 @@ import type { DocumentNode } from "graphql";
 
 export const fetchData = async <T>(
 	key: string,
-	query: DocumentNode, // You can use your specific query type here (e.g., GetTeams)
+	query: DocumentNode,
 	variables: StrapiGraphqlVariables = {}
-): Promise<T> => {
+): Promise<{ data: T | null; error: Error | null }> => {
 	const graphql = useStrapiGraphQL();
 
 	try {
 		const response = (await graphql(query, variables)) as {
 			data: Record<string, T[]>;
 		};
-		return response.data[key] as T;
+		return { data: response.data[key] as T, error: null };
 	} catch (error) {
+		console.log(error);
 		console.error("Error fetching data:", error);
-		throw error;
+		return {
+			data: null,
+			error:
+				error instanceof Error ? error : new Error("Unknown error occurred")
+		};
 	}
 };

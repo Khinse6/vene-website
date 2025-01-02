@@ -1,17 +1,17 @@
 <template>
 	<div class="w-full aspect-[2/3] bg-gray-200 relative">
 		<NuxtImg
-			v-if="team.cover && team.cover[0]"
+			v-if="team.cover_bw"
 			provider="strapi"
-			:src="team.cover[0].url"
-			:alt="team.cover[0].alternativeText"
+			:src="team.cover_bw.url"
+			:alt="team.cover_bw.alternativeText"
 			class="absolute inset-0 w-full h-full object-cover"
 		/>
 		<NuxtImg
-			v-if="team.cover && team.cover[1]"
+			v-if="team.cover_rgb"
 			provider="strapi"
-			:src="team.cover[1].url"
-			:alt="team.cover[1].alternativeText"
+			:src="team.cover_rgb.url"
+			:alt="team.cover_rgb.alternativeText"
 			class="absolute inset-0 w-full h-full object-cover opacity-0 hover:opacity-100 transition-opacity duration-300"
 		/>
 		<h2

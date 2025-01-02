@@ -8,7 +8,10 @@ query GetTeams(
 		game {
 			name
 		}
-		cover{
+		cover_bw{
+			url
+		}
+		cover_rgb{
 			url
 		}
 	}

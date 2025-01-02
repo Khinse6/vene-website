@@ -10,5 +10,6 @@ export type Team = {
 	members: Member[];
 	promo_codes: PromoCodes[];
 	logo: Image;
-	cover?: Image[];
+	cover_bw?: Image;
+	cover_rgb?: Image;
 };

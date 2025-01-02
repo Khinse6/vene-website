@@ -4,6 +4,7 @@ import type { Social } from "./Social";
 import type { Team } from "./Team";
 
 export type Member = {
+	nick: string;
 	name: string;
 	pfp?: Image;
 	team?: Team;

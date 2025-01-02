@@ -28,6 +28,7 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
+		"@iconify-json/material-symbols": "^1.2.12",
 		"@rollup/plugin-graphql": "^2.0.5",
 		"autoprefixer": "^10.4.20",
 		"postcss": "^8.4.49",
