@@ -1,5 +1,5 @@
 declare module '*.gql' {
-  import type { DocumentNode } from 'graphql'
-  const Schema: DocumentNode
-  export = Schema
+	import type { DocumentNode } from 'graphql'
+	const Schema: DocumentNode
+	export = Schema
 }

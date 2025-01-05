@@ -1,19 +1,19 @@
 query GetTeams(
-  $filters: TeamFiltersInput
-  $pagination: PaginationArg
-  $sort: [String]
+	$filters: TeamFiltersInput
+	$pagination: PaginationArg
+	$sort: [String]
 ) {
-  teams(filters: $filters, pagination: $pagination, sort: $sort) {
-    name
-    slug
-    game {
-      name
-    }
-    cover_bw {
-      url
-    }
-    cover_rgb {
-      url
-    }
-  }
+	teams(filters: $filters, pagination: $pagination, sort: $sort) {
+		name
+		slug
+		game {
+			name
+		}
+		cover_bw {
+			url
+		}
+		cover_rgb {
+			url
+		}
+	}
 }
