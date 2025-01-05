@@ -1,10 +1,10 @@
 <template>
-	<div>
-		<AppHeader class="z-[1000]" />
-		<div class="flex flex-col my-10 mx-[5%] items-center">
-			<slot />
-		</div>
-	</div>
+  <div>
+    <AppHeader class="z-[1000]" />
+    <div class="mx-[5%] my-10 flex flex-col items-center">
+      <slot />
+    </div>
+  </div>
 </template>
 
 <script setup></script>

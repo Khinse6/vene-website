@@ -1,11 +1,7 @@
 <template>
-	<div>
-		<h1>{{ article?.title }}</h1>
-		<div v-html="article?.content"></div>
-		<!-- Safely access article content -->
-	</div>
+  <div>
+    <h1>{{ article?.title }}</h1>
+  </div>
 </template>
 
-<script>
-const { find } = useStrapi();
-</script>
+<script></script>

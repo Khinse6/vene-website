@@ -1,32 +1,32 @@
 query GetMembers(
-	$filters: MemberFiltersInput
-	$pagination: PaginationArg
-	$sort: [String]
+  $filters: MemberFiltersInput
+  $pagination: PaginationArg
+  $sort: [String]
 ) {
-	members(filters: $filters, pagination: $pagination, sort: $sort) {
-		nick
-		name
-		team {
-			name
-		}
-		pfp {
-			url
-			alternativeText
-		}
-		social {
-			... on ComponentSharedSocialMedia {
-				id
-				platform
-				url
-				icon {
-					url
-				}
-				handle
-			}
-			... on Error {
-				code
-				message
-			}
-		}
-	}
+  members(filters: $filters, pagination: $pagination, sort: $sort) {
+    nick
+    name
+    team {
+      name
+    }
+    pfp {
+      url
+      alternativeText
+    }
+    social {
+      ... on ComponentSharedSocialMedia {
+        id
+        platform
+        url
+        icon {
+          url
+        }
+        handle
+      }
+      ... on Error {
+        code
+        message
+      }
+    }
+  }
 }

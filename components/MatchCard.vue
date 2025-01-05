@@ -1,62 +1,87 @@
 <template>
-	<div
-		class="flex flex-row items-center justify-between bg-gray-100 p-4 rounded-md shadow-md w-full"
-	>
-		<div class="team flex flex-col items-center text-center">
-			<NuxtImg
-				provider="strapi"
-				:src="leftTeam.logo.url"
-				alt="Team Logo"
-				class="h-16 w-16 mb-2"
-				width="64"
-				height="64"
-			/>
-			<h3 class="text-lg font-semibold">{{ leftTeam.name }}</h3>
-			<p class="text-sm text-gray-700">Score: {{ leftScore }}</p>
-		</div>
-
-		<!-- Match Info -->
-		<div class="match-info text-center mx-4">
-			<p class="text-sm text-gray-500">{{ match.date }}</p>
-		</div>
-
-		<!-- Right Team (Non-House Team) -->
-		<div class="team flex flex-col items-center text-center">
-			<NuxtImg
-				provider="strapi"
-				:src="rightTeam.logo.url"
-				alt="Team Logo"
-				class="h-16 w-16 mb-2"
-				width="64"
-				height="64"
-			/>
-			<h3 class="text-lg font-semibold">{{ rightTeam.name }}</h3>
-			<p class="text-sm text-gray-700">Score: {{ rightScore }}</p>
-		</div>
-	</div>
+  <div class="flex flex-col overflow-hidden rounded-xl bg-venegray2">
+    <div
+      class="flex w-full items-center justify-center font-goldman text-sm text-black"
+    >
+      <span class="left-clip w-[50%] bg-veneblue p-2 text-start">
+        {{ match.game.name }}
+      </span>
+      <span class="right-clip w-[50%] bg-veneorange p-2 text-end">
+        {{ match.name }}
+      </span>
+    </div>
+    <div class="py-4 text-center">
+      <div class="flex w-full items-center justify-evenly">
+        <NuxtImg
+          provider="strapi"
+          :src="leftTeam.logo.url"
+          :alt="leftTeam.logo.alternativeText"
+          class="h-10 sm:h-12 md:h-16 lg:h-20"
+        />
+        <p class="font-goldman text-2xl font-bold">
+          <span v-if="status === 'past'"
+            >{{ leftScore }} - {{ rightScore }}</span
+          >
+          <span v-else>/</span>
+        </p>
+        <NuxtImg
+          provider="strapi"
+          :src="rightTeam.logo.url"
+          :alt="rightTeam.logo.alternativeText"
+          class="h-10 sm:h-12 md:h-16 lg:h-20"
+        />
+      </div>
+      <p class="font-goldman text-xs">{{ localDateTime.localDate }}</p>
+      <p class="font-goldman text-xs">{{ localDateTime.localTime }}</p>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-	match: Match;
-}>();
+import { computed } from 'vue'
+const props = defineProps<{ match: Match }>()
+const houseTeamString = 'Vengeance'
+const isHouseTeamLeft = props.match.winner_team.name.includes(houseTeamString)
 
-const houseTeamString = "Vengeance";
+const currentDate = new Date().toISOString()
+const status = computed(() => {
+  return props.match.date > currentDate ? 'upcoming' : 'past'
+})
 
-const isHouseTeamLeft = props.match.winner_team.name.includes(houseTeamString);
+const {
+  winner_team: houseTeam,
+  loser_team: awayTeam,
+  winner_score: houseScore,
+  loser_score: awayScore,
+} = props.match
 
-const leftTeam = isHouseTeamLeft
-	? props.match.winner_team
-	: props.match.loser_team;
-const rightTeam = isHouseTeamLeft
-	? props.match.loser_team
-	: props.match.winner_team;
+const [leftTeam, rightTeam, leftScore, rightScore] = isHouseTeamLeft
+  ? [houseTeam, awayTeam, houseScore, awayScore]
+  : [awayTeam, houseTeam, awayScore, houseScore]
 
-// Set the scores accordingly
-const leftScore = isHouseTeamLeft
-	? props.match.winner_score
-	: props.match.loser_score;
-const rightScore = isHouseTeamLeft
-	? props.match.loser_score
-	: props.match.winner_score;
+const localDateTime = computed(() => {
+  const matchDate = new Date(props.match.date)
+  return {
+    localDate: matchDate.toLocaleDateString('en-GB', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }),
+    localTime: matchDate.toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    }),
+  }
+})
 </script>
+
+<style scoped>
+.left-clip {
+  clip-path: polygon(0% 0%, 100% 0%, 95% 100%, 0% 100%);
+}
+
+.right-clip {
+  clip-path: polygon(5% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+</style>

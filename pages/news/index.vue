@@ -1,24 +1,18 @@
 <template>
-	<p>News Page</p>
-	<template v-for="m in members" :key="m.nick">
-		<p>Nome: {{ m.nick }} Team: {{ m.team?.name }}</p>
-	</template>
+  <p>News Page</p>
+  <p v-for="m in members" :key="m.nick">
+    Nome: {{ m.nick }} Team: {{ m.team?.name }}
+  </p>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import GetMembers from "~/queries/GetMembers.gql"; // Import your GraphQL query
+import GetMembers from '~/queries/GetMembers.gql'
 
-const members = ref<Member[] | null>(null);
-
-onMounted(async () => {
-	const { data, error: fetchError } = await fetchData<Member[]>(
-		"members",
-		GetMembers,
-		{ pagination: { limit: 100 } }
-	);
-
-	members.value = data;
-	error.value = fetchError;
-});
+const {
+  data: members,
+  error,
+  status,
+} = useFetchData<Member[]>('members', 'members', GetMembers, {
+  pagination: { limit: 100 },
+})
 </script>

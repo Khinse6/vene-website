@@ -1,91 +1,63 @@
 <template>
-	<header
-		class="sticky top-0 bg-venegray1 font-goldman text-veneblue uppercase align-middle"
-	>
-		<nav class="mx-[2%] p-3 flex font-bold justify-between items-center">
-			<!-- Logo and brand name -->
-			<NuxtLink
-				class="flex items-center gap-5 h-16 hover:text-veneorange"
-				to="/"
-			>
-				<img
-					class="h-full"
-					src="/img/LOGO_SIMPLIFICADO_VNEE_COR.png"
-					alt="Organization Logo"
-				/>
-				<div class="text-xl/5">
-					<p class="uppercase">Vengeance</p>
-					<p class="uppercase">Experts</p>
-				</div>
-			</NuxtLink>
+  <header
+    class="sticky top-0 flex h-24 w-full justify-between bg-venegray1 px-10 font-goldman font-bold uppercase text-veneblue"
+  >
+    <NuxtLink
+      class="flex h-16 items-center gap-5 self-center hover:text-veneorange"
+      to="/"
+    >
+      <img
+        class="h-full"
+        src="/img/LOGO_SIMPLIFICADO_VNEE_COR.png"
+        alt="Organization Logo"
+      >
+      <div class="text-xl/5">
+        <p class="uppercase">Vengeance</p>
+        <p class="uppercase">Experts</p>
+      </div>
+    </NuxtLink>
 
-			<!-- Desktop Navigation Links -->
-			<div class="hidden lg:flex gap-16 h-fit">
-				<NuxtLink to="/teams" class="hover:text-veneorange content-center h-fit"
-					>Equipas</NuxtLink
-				>
-				<NuxtLink to="./about" class="hover:text-veneorange h-fit"
-					>Sobre</NuxtLink
-				>
-				<NuxtLink to="/events" class="uppercase hover:text-veneorange h-fit"
-					>Eventos</NuxtLink
-				>
-				<NuxtLink to="/news" class="uppercase hover:text-veneorange h-fit"
-					>Notícias</NuxtLink
-				>
-			</div>
+    <UButton
+      :icon="
+        isSidebarOpen
+          ? 'material-symbols:close-rounded'
+          : 'material-symbols:menu-rounded'
+      "
+      size="xl"
+      color="orange"
+      :padded="false"
+      variant="ghost"
+      class="absolute right-10 z-[999] flex self-center lg:hidden"
+      @click="isSidebarOpen = !isSidebarOpen"
+    />
 
-			<!-- Mobile Hamburger Icon -->
-			<div class="lg:hidden flex items-center">
-				<button
-					@click="toggleMenu"
-					class="text-veneblue hover:text-veneorange h-fit"
-				>
-					<UIcon
-						:name="
-							isMenuOpen
-								? 'i-material-symbols:close'
-								: 'i-material-symbols:menu'
-						"
-						size="24"
-					/>
-				</button>
-			</div>
-		</nav>
-
-		<!-- Mobile Navigation Links (hidden by default) -->
-		<div
-			v-if="isMenuOpen"
-			class="lg:hidden flex flex-col items-center bg-veneblue py-4"
-		>
-			<NuxtLink to="/teams" class="text-white py-2 hover:text-veneorange"
-				>Equipas</NuxtLink
-			>
-			<NuxtLink to="./about" class="text-white py-2 hover:text-veneorange"
-				>Sobre</NuxtLink
-			>
-			<NuxtLink to="/events" class="text-white py-2 hover:text-veneorange"
-				>Eventos</NuxtLink
-			>
-			<NuxtLink to="/news" class="text-white py-2 hover:text-veneorange"
-				>Notícias</NuxtLink
-			>
-		</div>
-	</header>
+    <nav
+      class="absolute right-0 top-0 flex h-screen flex-col items-end gap-10 bg-venegray1 px-10 pt-32 transition-transform duration-300 lg:static lg:h-fit lg:flex-row lg:items-center lg:gap-16 lg:self-center lg:bg-transparent lg:p-0 lg:pt-0"
+      :class="{
+        'translate-x-0': isSidebarOpen,
+        'translate-x-full lg:translate-x-0': !isSidebarOpen,
+      }"
+    >
+      <NuxtLink
+        v-for="link in links"
+        :key="link.path"
+        :to="link.path"
+        class="h-fit content-center hover:text-veneorange"
+        @click="isSidebarOpen = false"
+      >
+        {{ link.title }}
+      </NuxtLink>
+    </nav>
+  </header>
 </template>
 
-<script>
-export default {
-	name: "AppHeader",
-	data() {
-		return {
-			isMenuOpen: false, // Controls mobile menu visibility
-		};
-	},
-	methods: {
-		toggleMenu() {
-			this.isMenuOpen = !this.isMenuOpen; // Toggle the mobile menu
-		},
-	},
-};
+<script setup>
+const links = ref([
+  { title: 'Equipas', path: '/teams' },
+  { title: 'Sobre', path: '/about' },
+  { title: 'Eventos', path: '/events' },
+  { title: 'Notícias', path: '/news' },
+])
+
+const isSidebarOpen = ref(false)
 </script>

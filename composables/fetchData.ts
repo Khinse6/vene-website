@@ -1,25 +1,19 @@
-import type { StrapiGraphqlVariables } from "@nuxtjs/strapi";
-import type { DocumentNode } from "graphql";
+import type { StrapiGraphqlVariables } from '@nuxtjs/strapi'
+import type { DocumentNode } from 'graphql'
 
-export const fetchData = async <T>(
-	key: string,
-	query: DocumentNode,
-	variables: StrapiGraphqlVariables = {}
-): Promise<{ data: T | null; error: Error | null }> => {
-	const graphql = useStrapiGraphQL();
+export const useFetchData = <T>(
+  key: string,
+  dataKey: string,
+  query: DocumentNode,
+  variables: StrapiGraphqlVariables = {}
+) => {
+  const graphql = useStrapiGraphQL()
+  const { data, error, status } = useAsyncData(key, async () => {
+    const response = (await graphql(query, variables)) as {
+      data: { [dataKey: string]: T }
+    }
+    return response.data[dataKey] as T
+  })
 
-	try {
-		const response = (await graphql(query, variables)) as {
-			data: Record<string, T[]>;
-		};
-		return { data: response.data[key] as T, error: null };
-	} catch (error) {
-		console.log(error);
-		console.error("Error fetching data:", error);
-		return {
-			data: null,
-			error:
-				error instanceof Error ? error : new Error("Unknown error occurred")
-		};
-	}
-};
+  return { data, error, status }
+}

@@ -1,3 +1,3 @@
 <template>
-	<p>Events Page</p>
+  <p>Events Page</p>
 </template>
