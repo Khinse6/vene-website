@@ -1,26 +1,26 @@
-query GetMatches(
-	$filters: MatchFiltersInput
+query GetSeries(
+	$filters: SerieFiltersInput
 	$pagination: PaginationArg
 	$sort: [String]
 ) {
-	matches(filters: $filters, pagination: $pagination, sort: $sort) {
+	series(filters: $filters, pagination: $pagination, sort: $sort) {
 		name
-		winner_team {
+		home_team {
 			name
 			logo {
 				url
 				alternativeText
 			}
 		}
-		loser_team {
+		away_team {
 			name
 			logo {
 				url
 				alternativeText
 			}
 		}
-		winner_score
-		loser_score
+		home_score
+		away_score
 		date
 		game {
 			name

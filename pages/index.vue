@@ -2,51 +2,52 @@
 	<div
 		class="flex w-full flex-col flex-wrap justify-evenly align-middle lg:flex-row"
 	>
-		<div class="w-full text-center lg:w-[40%]">
-			<h2 class="font-goldman text-xl font-bold">Upcoming Matches</h2>
+		<section class="w-full text-center lg:w-[40%]">
+			<h2 class="font-goldman text-xl font-bold">Upcoming Series</h2>
 			<div v-if="upcomingError">Error: {{ upcomingError.message }}</div>
-			<div v-else class="my-5 flex flex-col gap-5">
-				<MatchCard
-					v-for="match in upcomingMatches"
-					:key="match.name"
-					:match="match"
+			<div v-else-if="upcomingSeries?.length" class="my-5 flex flex-col gap-5">
+				<SerieCard
+					v-for="serie in upcomingSeries"
+					:key="serie.name"
+					:serie="serie"
 				/>
 			</div>
-		</div>
+			<div v-else>No upcoming series</div>
+		</section>
 
-		<div class="w-full text-center lg:w-[40%]">
-			<h2 class="font-goldman text-xl font-bold">Past Matches</h2>
+		<section class="w-full text-center lg:w-[40%]">
+			<h2 class="font-goldman text-xl font-bold">Past Series</h2>
 			<div v-if="pastError">Error: {{ pastError.message }}</div>
-			<div v-else class="my-5 flex flex-col gap-5">
-				<MatchCard
-					v-for="match in pastMatches"
-					:key="match.name"
-					:match="match"
+			<div v-else-if="pastSeries?.length" class="my-5 flex flex-col gap-5">
+				<SerieCard
+					v-for="serie in pastSeries"
+					:key="serie.name"
+					:serie="serie"
 				/>
 			</div>
-		</div>
+			<div v-else>No past series</div>
+		</section>
 	</div>
 </template>
 
 <script setup lang="ts">
-	import GetMatches from '~/queries/GetMatches.gql'
+	import GetSeries from '~/queries/GetSeries.gql'
 	const currentDate = new Date().toISOString()
-
 	const {
-		data: upcomingMatches,
+		data: upcomingSeries,
 		error: upcomingError,
 		status: upcomingStatus,
-	} = useFetchData<Match[]>('upcomingMatches', 'matches', GetMatches, {
+	} = useFetchData<Serie[]>('upcomingSeries', 'series', GetSeries, {
 		filters: { date: { gt: currentDate } },
 		pagination: { limit: 3 },
 		sort: ['date:asc'],
 	})
 
 	const {
-		data: pastMatches,
+		data: pastSeries,
 		error: pastError,
 		status: pastStatus,
-	} = useFetchData<Match[]>('pastMatches', 'matches', GetMatches, {
+	} = useFetchData<Serie[]>('pastSeries', 'series', GetSeries, {
 		filters: { date: { lte: currentDate } },
 		pagination: { limit: 3 },
 		sort: ['date:desc'],

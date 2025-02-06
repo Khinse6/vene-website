@@ -11,6 +11,5 @@ export type Team = {
 	members: Member[]
 	promo_codes: PromoCodes[]
 	logo: Image
-	cover_bw?: Image
-	cover_rgb?: Image
+	cover?: Image
 }

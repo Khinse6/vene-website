@@ -15,18 +15,11 @@
 
 <script setup lang="ts">
 	import GetTeams from '~/queries/GetTeams.gql'
-
 	const {
 		data: teams,
 		error,
 		status,
 	} = useFetchData<Team[]>('teams', 'teams', GetTeams, {
-		filters: {
-			or: [
-				{ name: { contains: 'Vengeance Experts' } },
-				{ name: { contains: 'Staff' } },
-			],
-		},
 		sort: 'name:asc',
 	})
 </script>
