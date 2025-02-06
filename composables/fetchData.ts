@@ -15,6 +15,5 @@ export const useFetchData = <T>(
 		return response.data[dataKey] as T
 	})
 
-	console.log(error.value)
 	return { data, error, status }
 }

@@ -31,7 +31,9 @@
 					:alt="serie.away_team.logo?.alternativeText"
 					class="h-10 sm:h-12 md:h-16 lg:h-20"
 				/>
-				<p v-else class="text-3xl">{{ serie.away_team.name }}</p>
+				<p v-else class="w-10 text-3xl sm:w-12 md:w-16 lg:w-20">
+					{{ serie.away_team.name }}
+				</p>
 			</div>
 			<p class="font-goldman text-xs">{{ localDateTime.localDate }}</p>
 			<p class="font-goldman text-xs">{{ localDateTime.localTime }}</p>
