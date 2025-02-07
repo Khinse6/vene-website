@@ -1,6 +1,6 @@
 <template>
 	<NuxtLink
-		:to="{ name: 'teams-team', params: { team: team.slug } }"
+		:to="{ name: 'teams-slug', params: { slug: team.slug } }"
 		class="group relative aspect-[2/3] w-full bg-gray-200"
 	>
 		<NuxtImg

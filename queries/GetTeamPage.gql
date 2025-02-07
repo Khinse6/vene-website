@@ -1,0 +1,33 @@
+query GetTeamPage(
+	$filters: TeamFiltersInput
+	$pagination: PaginationArg
+	$memberSort: [String]
+) {
+	teams(filters: $filters, pagination: $pagination) {
+		name
+		slug
+		cover{
+			url
+			alternativeText
+		}
+		members(sort: $memberSort) {
+			nick
+			name
+    	role
+			player
+			card {
+				url
+				alternativeText
+			}
+	   	social {
+      	discord
+      	facebook
+      	instagram
+      	tiktok
+      	twitch
+      	twitter
+      	youtube
+    	}
+  	}
+	}
+}

@@ -6,8 +6,8 @@ import type { Team } from './Team'
 export type Member = {
 	nick: string
 	name: string
-	pfp?: Image
+	card?: Image
 	team?: Team
-	social?: Social[]
+	social?: Social
 	promo_codes?: PromoCodes[]
 }

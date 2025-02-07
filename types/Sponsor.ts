@@ -5,6 +5,6 @@ import type { Social } from './Social'
 export type Sponsor = {
 	name: string
 	logo: Image
-	social?: Social[]
+	social?: Social
 	promo_codes: PromoCodes[]
 }

@@ -1,8 +1,9 @@
-import type { Image } from './Image'
-
 export type Social = {
-	platform: string
-	url: string
-	icon: Image
-	handle: string
+	discord: string
+	facebook: string
+	instagram: string
+	tiktok: string
+	twitch: string
+	twitter: string
+	youtube: string
 }
