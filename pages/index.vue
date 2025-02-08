@@ -4,10 +4,9 @@
 	>
 		<section class="w-full text-center lg:w-[40%]">
 			<h2 class="font-goldman text-xl font-bold">Upcoming Series</h2>
-			<div v-if="upcomingError">Error: {{ upcomingError.message }}</div>
-			<div v-else-if="upcomingSeries?.length" class="my-5 flex flex-col gap-5">
+			<div v-if="series?.upcoming.length" class="my-5 flex flex-col gap-5">
 				<SerieCard
-					v-for="serie in upcomingSeries"
+					v-for="serie in series.upcoming"
 					:key="serie.name"
 					:serie="serie"
 				/>
@@ -17,10 +16,9 @@
 
 		<section class="w-full text-center lg:w-[40%]">
 			<h2 class="font-goldman text-xl font-bold">Past Series</h2>
-			<div v-if="pastError">Error: {{ pastError.message }}</div>
-			<div v-else-if="pastSeries?.length" class="my-5 flex flex-col gap-5">
+			<div v-if="series?.past.length" class="my-5 flex flex-col gap-5">
 				<SerieCard
-					v-for="serie in pastSeries"
+					v-for="serie in series.past"
 					:key="serie.name"
 					:serie="serie"
 				/>
@@ -33,23 +31,28 @@
 <script setup lang="ts">
 	import GetSeries from '~/queries/GetSeries.gql'
 	const currentDate = new Date().toISOString()
-	const {
-		data: upcomingSeries,
-		error: upcomingError,
-		status: upcomingStatus,
-	} = useFetchData<Serie[]>('upcomingSeries', 'series', GetSeries, {
-		filters: { date: { gt: currentDate } },
-		pagination: { limit: 3 },
-		sort: ['date:asc'],
-	})
+	const graphql = useStrapiGraphQL()
 
 	const {
-		data: pastSeries,
-		error: pastError,
-		status: pastStatus,
-	} = useFetchData<Serie[]>('pastSeries', 'series', GetSeries, {
-		filters: { date: { lte: currentDate } },
-		pagination: { limit: 3 },
-		sort: ['date:desc'],
+		data: series,
+		error,
+		status,
+	} = await useAsyncData('series', async () => {
+		const upcomingResponse = (await graphql(GetSeries, {
+			filters: { date: { gt: currentDate } },
+			pagination: { limit: 3 },
+			sort: ['date:asc'],
+		})) as { data: { series: Serie[] } }
+
+		const pastResponse = (await graphql(GetSeries, {
+			filters: { date: { lte: currentDate } },
+			pagination: { limit: 3 },
+			sort: ['date:desc'],
+		})) as { data: { series: Serie[] } }
+
+		return {
+			upcoming: upcomingResponse.data.series,
+			past: pastResponse.data.series,
+		}
 	})
 </script>

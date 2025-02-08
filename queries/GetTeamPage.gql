@@ -6,28 +6,28 @@ query GetTeamPage(
 	teams(filters: $filters, pagination: $pagination) {
 		name
 		slug
-		cover{
+		cover {
 			url
 			alternativeText
 		}
 		members(sort: $memberSort) {
 			nick
 			name
-    	role
+			role
 			player
 			card {
 				url
 				alternativeText
 			}
-	   	social {
-      	discord
-      	facebook
-      	instagram
-      	tiktok
-      	twitch
-      	twitter
-      	youtube
-    	}
-  	}
+			social {
+				discord
+				facebook
+				instagram
+				tiktok
+				twitch
+				twitter
+				youtube
+			}
+		}
 	}
 }

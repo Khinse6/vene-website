@@ -6,7 +6,7 @@
 			class="flex h-16 items-center gap-5 self-center hover:text-veneorange"
 			to="/"
 		>
-			<img class="h-full" src="/img/VENE_LOGO.png" alt="Org Logo" />
+			<img class="h-full" src="/img/VENE_LOGO.png" alt="Org Logo" >
 			<div class="text-xl/5">
 				<p class="uppercase">Vengeance</p>
 				<p class="uppercase">Experts</p>

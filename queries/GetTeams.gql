@@ -6,7 +6,7 @@ query GetTeams(
 	teams(filters: $filters, pagination: $pagination, sort: $sort) {
 		name
 		slug
-		cover{
+		cover {
 			url
 			alternativeText
 		}

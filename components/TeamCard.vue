@@ -1,8 +1,5 @@
 <template>
-	<NuxtLink
-		:to="{ name: 'teams-slug', params: { slug: team.slug } }"
-		class="group relative aspect-[2/3] w-full bg-gray-200"
-	>
+	<div class="group relative aspect-[2/3] w-full bg-gray-200">
 		<NuxtImg
 			provider="strapi"
 			:src="team.cover?.url"
@@ -14,7 +11,7 @@
 		>
 			{{ team.name }}
 		</h2>
-	</NuxtLink>
+	</div>
 </template>
 
 <script setup lang="ts">

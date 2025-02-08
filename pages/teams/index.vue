@@ -1,25 +1,30 @@
 <template>
-	<div v-if="error" class="my-4 text-center text-red-500">
-		Failed to load teams: {{ error.message }}
-	</div>
-
-	<div v-else-if="teams" class="flex w-full flex-wrap justify-center gap-5">
-		<TeamCard
+	<div
+		v-if="teams && teams.length"
+		class="flex w-full flex-wrap justify-center gap-5"
+	>
+		<NuxtLink
 			v-for="t in teams"
 			:key="t.name"
-			:team="t"
 			class="basis-40 sm:basis-1/4 xl:basis-1/5"
-		/>
+			:to="{ name: 'teams-slug', params: { slug: t.slug } }"
+		>
+			<TeamCard :team="t" />
+		</NuxtLink>
 	</div>
 </template>
 
 <script setup lang="ts">
 	import GetTeams from '~/queries/GetTeams.gql'
+	const graphql = useStrapiGraphQL()
 	const {
 		data: teams,
 		error,
 		status,
-	} = useFetchData<Team[]>('teams', 'teams', GetTeams, {
-		sort: 'name:asc',
+	} = await useAsyncData('teams', async () => {
+		const response = (await graphql(GetTeams, { sort: 'name:asc' })) as {
+			data: { teams: Team[] }
+		}
+		return response.data.teams
 	})
 </script>

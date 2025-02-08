@@ -1,25 +1,35 @@
 <template>
-	<div :key="team_slug">
-		<p>{{ team?.name }} , {{ team?.slug }}</p>
+	<p class="pb-10 font-goldman text-3xl">{{ team?.name }}</p>
+
+	<div v-if="team?.members" class="flex w-full flex-wrap justify-center gap-5">
+		<MemberCard
+			v-for="m in team?.members"
+			class="basis-40 sm:basis-1/4 xl:basis-1/6"
+			:member="m"
+		/>
 	</div>
 </template>
 
 <script setup lang="ts">
-	const route = useRoute() // Get the current route
-	const team_slug = route.params.slug as string // Extract the team from the route parameters
 	import GetTeamPage from '~/queries/GetTeamPage.gql'
-	const { data, error, status } = useFetchData<Team[]>(
-		team_slug,
-		'teams',
-		GetTeamPage,
-		{
+	const team_slug = useRoute().params.slug as string
+	const graphql = useStrapiGraphQL()
+
+	const {
+		data: team,
+		error,
+		status,
+	} = await useAsyncData(team_slug, async () => {
+		const response = (await graphql(GetTeamPage, {
 			filters: {
 				slug: {
 					eq: team_slug,
 				},
 			},
-			sort: 'name:asc',
+			memberSort: ['player:desc', 'role:asc'],
+		})) as {
+			data: { teams: Team[] }
 		}
-	)
-	const team = data.value?.[0] as Team | undefined
+		return response.data.teams[0]
+	})
 </script>
