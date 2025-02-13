@@ -2,6 +2,7 @@
 import gql from '@rollup/plugin-graphql'
 
 export default defineNuxtConfig({
+	ssr: true,
 	devtools: {
 		enabled: true,
 
@@ -20,21 +21,24 @@ export default defineNuxtConfig({
 	],
 	runtimeConfig: {
 		strapi: {
-			url: 'http://localhost:1337',
+			url: 'https://ez-suspected-petition-walnut.trycloudflare.com',
 		},
 		public: {
 			strapi: {
-				url: 'http://localhost:1337',
+				url: 'https://ez-suspected-petition-walnut.trycloudflare.com',
 			},
 		},
 	},
 	image: {
 		strapi: {
-			baseURL: 'http://localhost:1337',
+			baseURL: 'https://ez-suspected-petition-walnut.trycloudflare.com',
 		},
 	},
 	vite: {
 		plugins: [gql()],
+		server: {
+			allowedHosts: true,
+		},
 	},
 	imports: { dirs: ['types'] },
 	nitro: { imports: { dirs: ['types'] } },
