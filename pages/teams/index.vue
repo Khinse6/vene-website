@@ -15,16 +15,17 @@
 </template>
 
 <script setup lang="ts">
-	import GetTeams from '~/queries/GetTeams.gql'
-	const graphql = useStrapiGraphQL()
-	const {
-		data: teams,
-		error,
-		status,
-	} = await useAsyncData('teams', async () => {
-		const response = (await graphql(GetTeams, { sort: 'name:asc' })) as {
-			data: { teams: Team[] }
+	const client = useSupabaseClient()
+	const { data: teams } = await useAsyncData(
+		'teams',
+		async () => {
+			return await client
+				.from('teams')
+				.select('*, cover(*)')
+				.ilike('slug', '%vengeance%')
+		},
+		{
+			transform: (result) => result.data,
 		}
-		return response.data.teams
-	})
+	)
 </script>

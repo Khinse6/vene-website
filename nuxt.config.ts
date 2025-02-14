@@ -1,41 +1,31 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import gql from '@rollup/plugin-graphql'
 
 export default defineNuxtConfig({
 	ssr: true,
 	devtools: {
 		enabled: true,
-
 		timeline: {
 			enabled: true,
 		},
 	},
+	css: ['~/assets/css/main.css'],
+	postcss: {
+		plugins: {
+			tailwindcss: {},
+			autoprefixer: {},
+		},
+	},
 	compatibilityDate: '2024-12-20',
 	modules: [
-		'@nuxtjs/strapi',
 		'@nuxtjs/seo',
 		'@nuxt/ui',
 		'@nuxt/fonts',
 		'@nuxt/image',
 		'@nuxt/eslint',
+		'@nuxtjs/supabase',
 	],
-	runtimeConfig: {
-		strapi: {
-			url: 'https://ez-suspected-petition-walnut.trycloudflare.com',
-		},
-		public: {
-			strapi: {
-				url: 'https://ez-suspected-petition-walnut.trycloudflare.com',
-			},
-		},
-	},
-	image: {
-		strapi: {
-			baseURL: 'https://ez-suspected-petition-walnut.trycloudflare.com',
-		},
-	},
+	supabase: { redirect: false },
 	vite: {
-		plugins: [gql()],
 		server: {
 			allowedHosts: true,
 		},

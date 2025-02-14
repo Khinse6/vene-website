@@ -29,30 +29,33 @@
 </template>
 
 <script setup lang="ts">
-	import GetSeries from '~/queries/GetSeries.gql'
+	const client = useSupabaseClient()
 	const currentDate = new Date().toISOString()
-	const graphql = useStrapiGraphQL()
 
-	const {
-		data: series,
-		error,
-		status,
-	} = await useAsyncData('series', async () => {
-		const upcomingResponse = (await graphql(GetSeries, {
-			filters: { date: { gt: currentDate } },
-			pagination: { limit: 3 },
-			sort: ['date:asc'],
-		})) as { data: { series: Serie[] } }
+	const { data: series } = await useAsyncData(
+		'series',
+		async () => {
+			const upcomingResponse = await client
+				.from('series')
+				.select('*, home_team(logo(*)), away_team(logo(*)), game(name, alias)')
+				.gt('date', currentDate)
+				.order('date', { ascending: true })
+				.limit(3)
 
-		const pastResponse = (await graphql(GetSeries, {
-			filters: { date: { lte: currentDate } },
-			pagination: { limit: 3 },
-			sort: ['date:desc'],
-		})) as { data: { series: Serie[] } }
+			const pastResponse = await client
+				.from('series')
+				.select('*, home_team(logo(*)), away_team(logo(*)), game(name, alias)')
+				.lte('date', currentDate)
+				.order('date', { ascending: false })
+				.limit(3)
 
-		return {
-			upcoming: upcomingResponse.data.series,
-			past: pastResponse.data.series,
+			return { upcomingResponse, pastResponse }
+		},
+		{
+			transform: ({ upcomingResponse, pastResponse }) => ({
+				upcoming: upcomingResponse.data,
+				past: pastResponse.data,
+			}),
 		}
-	})
+	)
 </script>

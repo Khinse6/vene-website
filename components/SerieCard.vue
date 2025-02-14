@@ -13,7 +13,6 @@
 		<div class="py-4 text-center">
 			<div class="flex w-full items-center justify-evenly">
 				<NuxtImg
-					provider="strapi"
 					:src="serie.home_team.logo.url"
 					:alt="serie.home_team.logo.alternativeText"
 					class="h-10 sm:h-12 md:h-16 lg:h-20"
@@ -26,7 +25,6 @@
 				</p>
 				<NuxtImg
 					v-if="serie.away_team.logo?.url"
-					provider="strapi"
 					:src="serie.away_team.logo?.url"
 					:alt="serie.away_team.logo?.alternativeText"
 					class="h-10 sm:h-12 md:h-16 lg:h-20"

@@ -1,6 +1,5 @@
 <template>
 	<p class="pb-10 font-goldman text-3xl">{{ team?.name }}</p>
-
 	<div v-if="team?.members" class="flex w-full flex-wrap justify-center gap-5">
 		<MemberCard
 			v-for="m in team?.members"
@@ -11,25 +10,21 @@
 </template>
 
 <script setup lang="ts">
-	import GetTeamPage from '~/queries/GetTeamPage.gql'
-	const team_slug = useRoute().params.slug as string
-	const graphql = useStrapiGraphQL()
-
-	const {
-		data: team,
-		error,
-		status,
-	} = await useAsyncData(team_slug, async () => {
-		const response = (await graphql(GetTeamPage, {
-			filters: {
-				slug: {
-					eq: team_slug,
-				},
-			},
-			memberSort: ['player:desc', 'role:asc'],
-		})) as {
-			data: { teams: Team[] }
-		}
-		return response.data.teams[0]
+	const client = useSupabaseClient()
+	const currentSlug = useRoute().params.slug
+	const { data: team } = await useAsyncData(currentSlug, async () => {
+		const teamResponse = await client
+			.from('teams')
+			.select('*')
+			.ilike('slug', `%${currentSlug}%`)
+			.limit(1)
+		const team = teamResponse.data?.[0] || null
+		if (!team) return null
+		const membersResponse = await client
+			.from('members')
+			.select('*')
+			.eq('team', team.id)
+		team.members = membersResponse.data
+		return team
 	})
 </script>

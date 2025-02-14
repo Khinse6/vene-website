@@ -1,7 +1,6 @@
 <template>
 	<div class="relative aspect-[2/3] w-full bg-gray-200">
 		<NuxtImg
-			provider="strapi"
 			:src="member.card?.url"
 			:alt="member.card?.alternativeText"
 			class="absolute inset-0 h-full w-full object-cover"
