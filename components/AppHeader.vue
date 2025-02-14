@@ -22,7 +22,7 @@
 			size="xl"
 			color="white"
 			variant="link"
-			class="absolute right-10 z-[999] flex self-center lg:hidden"
+			class="absolute right-10 z-999 flex self-center lg:hidden"
 			@click="isSidebarOpen = !isSidebarOpen"
 		/>
 

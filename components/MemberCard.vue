@@ -1,5 +1,5 @@
 <template>
-	<div class="relative aspect-[2/3] w-full bg-gray-200">
+	<div class="relative aspect-2/3 w-full bg-gray-200">
 		<NuxtImg
 			:src="member.card?.url"
 			:alt="member.card?.alternativeText"

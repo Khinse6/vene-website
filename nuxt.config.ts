@@ -1,20 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-
+import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
 	ssr: true,
-	devtools: {
-		enabled: true,
-		timeline: {
-			enabled: true,
-		},
-	},
-	css: ['~/assets/css/main.css'],
-	postcss: {
-		plugins: {
-			tailwindcss: {},
-			autoprefixer: {},
-		},
-	},
 	compatibilityDate: '2024-12-20',
 	modules: [
 		'@nuxtjs/seo',
@@ -24,8 +11,21 @@ export default defineNuxtConfig({
 		'@nuxt/eslint',
 		'@nuxtjs/supabase',
 	],
+	devtools: {
+		enabled: true,
+		timeline: {
+			enabled: true,
+		},
+	},
+	css: ['~/assets/css/main.css'],
 	supabase: { redirect: false },
+	fonts: {
+		experimental: {
+			processCSSVariables: true,
+		},
+	},
 	vite: {
+		plugins: [tailwindcss()],
 		server: {
 			allowedHosts: true,
 		},
