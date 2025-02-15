@@ -1,8 +1,9 @@
 <template>
 	<div class="group relative aspect-2/3 w-full bg-gray-200">
 		<NuxtImg
-			:src="team.cover?.url"
-			:alt="team.cover?.alternativeText"
+			v-if="team.cover?.url"
+			:src="team.cover?.url ?? undefined"
+			:alt="team.cover?.alt_txt ?? undefined"
 			class="absolute inset-0 h-full w-full object-cover grayscale transition-all duration-300 group-hover:grayscale-0"
 		/>
 		<h2
@@ -14,5 +15,9 @@
 </template>
 
 <script setup lang="ts">
-	defineProps<{ team: Team }>()
+	const props = defineProps<{
+		team: Tables<'teams'> & {
+			cover?: Tables<'images'> | null
+		}
+	}>()
 </script>

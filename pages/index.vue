@@ -4,7 +4,7 @@
 	>
 		<section class="w-full text-center lg:w-[40%]">
 			<h2 class="font-goldman text-xl font-bold">Upcoming Series</h2>
-			<div v-if="series?.upcoming.length" class="my-5 flex flex-col gap-5">
+			<div v-if="series?.upcoming" class="my-5 flex flex-col gap-5">
 				<SerieCard
 					v-for="serie in series.upcoming"
 					:key="serie.name"
@@ -16,7 +16,7 @@
 
 		<section class="w-full text-center lg:w-[40%]">
 			<h2 class="font-goldman text-xl font-bold">Past Series</h2>
-			<div v-if="series?.past.length" class="my-5 flex flex-col gap-5">
+			<div v-if="series?.past" class="my-5 flex flex-col gap-5">
 				<SerieCard
 					v-for="serie in series.past"
 					:key="serie.name"
@@ -31,20 +31,19 @@
 <script setup lang="ts">
 	const client = useSupabaseClient()
 	const currentDate = new Date().toISOString()
-
 	const { data: series } = await useAsyncData(
 		'series',
 		async () => {
 			const upcomingResponse = await client
 				.from('series')
-				.select('*, home_team(logo(*)), away_team(logo(*)), game(name, alias)')
+				.select('*, home_team(*, logo(*)), away_team(*, logo(*)), game(*)')
 				.gt('date', currentDate)
 				.order('date', { ascending: true })
 				.limit(3)
 
 			const pastResponse = await client
 				.from('series')
-				.select('*, home_team(logo(*)), away_team(logo(*)), game(name, alias)')
+				.select('*, home_team(*, logo(*)), away_team(*, logo(*)), game(*)')
 				.lte('date', currentDate)
 				.order('date', { ascending: false })
 				.limit(3)
@@ -56,6 +55,7 @@
 				upcoming: upcomingResponse.data,
 				past: pastResponse.data,
 			}),
+			lazy: false,
 		}
 	)
 </script>
