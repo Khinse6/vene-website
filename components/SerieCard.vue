@@ -13,8 +13,9 @@
 		<div class="py-4 text-center">
 			<div class="flex w-full items-center justify-evenly">
 				<NuxtImg
-					:src="serie.home_team?.logo?.url!"
-					:alt="serie.home_team?.logo?.alt_txt!"
+					v-if="serie.home_team?.logo?.url && serie.home_team?.logo?.alt_txt"
+					:src="serie.home_team?.logo?.url"
+					:alt="serie.home_team?.logo?.alt_txt"
 					class="h-10 sm:h-12 md:h-16 lg:h-20"
 				/>
 				<p class="font-goldman text-2xl font-bold">
@@ -24,10 +25,9 @@
 					<span v-else>/</span>
 				</p>
 				<NuxtImg
-					v-if="serie.away_team?.logo?.url"
-					1
+					v-if="serie.away_team?.logo?.url && serie.away_team?.logo?.alt_txt"
 					:src="serie.away_team?.logo?.url"
-					:alt="serie.away_team?.logo?.alt_txt!"
+					:alt="serie.away_team?.logo?.alt_txt"
 					class="h-10 sm:h-12 md:h-16 lg:h-20"
 				/>
 				<p v-else class="w-10 text-3xl sm:w-12 md:w-16 lg:w-20">

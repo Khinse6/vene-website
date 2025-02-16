@@ -2,6 +2,7 @@
 import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
 	ssr: true,
+	pages: true,
 	compatibilityDate: '2024-12-20',
 	modules: [
 		'@nuxtjs/seo',
