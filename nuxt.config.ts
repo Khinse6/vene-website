@@ -11,6 +11,7 @@ export default defineNuxtConfig({
 		'@nuxt/image',
 		'@nuxt/eslint',
 		'@nuxtjs/supabase',
+		'@nuxthub/core',
 	],
 	devtools: {
 		enabled: true,
@@ -32,5 +33,5 @@ export default defineNuxtConfig({
 		},
 	},
 	imports: { dirs: ['types'] },
-	nitro: { imports: { dirs: ['types'] } },
+	nitro: { imports: { dirs: ['types'] }, experimental: { openAPI: true } },
 })
