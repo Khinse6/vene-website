@@ -14,8 +14,8 @@
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
 		"format": "prettier --write .",
-		"deploy": "nuxthub deploy",
-		
+		"deploy": "nuxthub deploy"
+
 	},
 	"dependencies": {
 		"@nuxt/eslint": "^0.7.4",
