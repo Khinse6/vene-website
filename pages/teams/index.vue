@@ -6,7 +6,7 @@
 		<NuxtLink
 			v-for="t in teams"
 			:key="t.slug!"
-			class="basis-40 sm:basis-1/4 xl:basis-1/5"
+			class="basis-56 xl:basis-70"
 			:to="{ name: 'teams-slug', params: { slug: t.slug } }"
 		>
 			<TeamCard :team="t" />

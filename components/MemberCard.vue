@@ -6,7 +6,7 @@
 			class="absolute inset-0 h-full w-full object-cover"
 		/>
 		<h2
-			class="absolute bottom-0 z-10 w-full bg-black/50 py-5 text-center font-goldman text-lg/4 font-bold"
+			class="font-goldman absolute bottom-0 z-10 w-full bg-black/50 py-5 text-center text-lg/4 font-bold"
 		>
 			{{ member.nick }}
 		</h2>
@@ -14,5 +14,5 @@
 </template>
 
 <script setup lang="ts">
-	defineProps<{ member: Member }>()
+	defineProps<{ member: Tables<'members'> }>()
 </script>
