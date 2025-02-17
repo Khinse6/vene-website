@@ -4,7 +4,7 @@
 	>
 		<UContainer class="flex justify-between">
 			<NuxtLink class="hover:text-veneorange flex items-center gap-5" to="/">
-				<NuxtImg src="/img/VENE_LOGO.png" alt="Org Logo" sizes="40" />
+				<img src="/logo.png" alt="Org Logo" class="h-16" />
 				<div class="text-lg/5">
 					<p class="uppercase">Vengeance</p>
 					<p class="uppercase">Experts</p>
