@@ -35,4 +35,5 @@ export default defineNuxtConfig({
 			allowedHosts: true,
 		},
 	},
+	imports: { dirs: ['types'] },
 })

@@ -1,9 +1,12 @@
 <template>
 	<header
-		class="bg-venegray1 font-goldman text-veneblue sticky top-0 w-full py-3 font-bold uppercase"
+		class="font-goldman text-anakiwa-300 sticky top-0 w-full bg-gray-950 py-3 font-bold uppercase"
 	>
 		<UContainer class="flex justify-between">
-			<NuxtLink class="hover:text-veneorange flex items-center gap-5" to="/">
+			<NuxtLink
+				class="hover:text-orange-peel-500 flex items-center gap-5"
+				to="/"
+			>
 				<img src="/logo.png" alt="Org Logo" class="h-16" />
 				<div class="text-lg/5">
 					<p class="uppercase">Vengeance</p>
@@ -22,7 +25,6 @@
 					size="xl"
 					variant="link"
 					class="lg:hidden"
-					color="secondary"
 				/>
 				<template #body>
 					<UNavigationMenu :items="links" orientation="vertical" />

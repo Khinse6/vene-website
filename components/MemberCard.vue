@@ -1,8 +1,9 @@
 <template>
 	<div class="relative aspect-2/3 w-full bg-gray-200">
 		<NuxtImg
+			v-if="member.card?.url && member.card?.alt_txt"
 			:src="member.card?.url"
-			:alt="member.card?.alternativeText"
+			:alt="member.card?.alt_txt"
 			class="absolute inset-0 h-full w-full object-cover"
 		/>
 		<h2
@@ -14,5 +15,7 @@
 </template>
 
 <script setup lang="ts">
-	defineProps<{ member: Tables<'members'> }>()
+	defineProps<{
+		member: Tables<'members'> & { card: Tables<'images'> | null }
+	}>()
 </script>

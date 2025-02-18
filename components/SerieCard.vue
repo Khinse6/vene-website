@@ -1,12 +1,12 @@
 <template>
-	<div class="bg-venegray2 flex flex-col overflow-hidden rounded-xl">
+	<div class="flex flex-col overflow-hidden rounded-xl bg-gray-950">
 		<div
 			class="font-goldman flex w-full items-center justify-center text-sm text-black"
 		>
-			<span class="left-clip bg-veneblue w-[50%] p-2 text-start">
+			<span class="left-clip bg-anakiwa-300 w-[50%] p-2 text-start">
 				{{ serie.game?.name }}
 			</span>
-			<span class="right-clip bg-veneorange w-[50%] p-2 text-end">
+			<span class="right-clip bg-orange-peel-500 w-[50%] p-2 text-end">
 				{{ serie.name }}
 			</span>
 		</div>
