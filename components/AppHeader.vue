@@ -7,7 +7,7 @@
 				class="hover:text-orange-peel-500 flex items-center gap-5"
 				to="/"
 			>
-				<NuxtImg src="/logo.png" alt="Org Logo" sizes="40px" />
+				<NuxtImg src="/logo.png" alt="Org Logo" height="60" />
 				<div class="text-lg/5">
 					<p class="uppercase">Vengeance</p>
 					<p class="uppercase">Experts</p>
