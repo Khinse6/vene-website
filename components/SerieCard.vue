@@ -17,6 +17,7 @@
 					:src="serie.home_team?.logo?.url"
 					:alt="serie.home_team?.logo?.alt_txt"
 					class="h-10 sm:h-12 md:h-16 lg:h-20"
+					format="webp"
 				/>
 				<p class="font-goldman text-2xl font-bold">
 					<span v-if="status === 'past'"
@@ -29,6 +30,7 @@
 					:src="serie.away_team?.logo?.url"
 					:alt="serie.away_team?.logo?.alt_txt"
 					class="h-10 sm:h-12 md:h-16 lg:h-20"
+					format="webp"
 				/>
 				<p v-else class="w-10 text-3xl sm:w-12 md:w-16 lg:w-20">
 					{{ serie.away_team?.name }}

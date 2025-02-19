@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
-	app: { head: { title: 'Veangence Experts', charset: 'utf-8' } },
+	app: { head: { title: 'Vengeance Experts', charset: 'utf-8' } },
 	ssr: true,
 	compatibilityDate: '2024-12-20',
 	modules: [

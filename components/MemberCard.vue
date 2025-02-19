@@ -5,6 +5,7 @@
 			:src="member.card?.url"
 			:alt="member.card?.alt_txt"
 			class="absolute inset-0 h-full w-full object-cover"
+			format="webp"
 		/>
 		<h2
 			class="font-goldman absolute bottom-0 z-10 w-full bg-black/50 py-5 text-center text-lg/4 font-bold"
