@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { OgImage } from '#components'
 import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
-	app: { head: { title: 'Vengeance Experts', charset: 'utf-8' } },
 	ssr: true,
 	compatibilityDate: '2024-12-20',
 	modules: [
@@ -37,4 +37,12 @@ export default defineNuxtConfig({
 		},
 	},
 	imports: { dirs: ['types'] },
+	site: {
+		url: 'https://vengeance-experts.nuxt.dev/',
+		name: 'Vengeance Experts',
+	},
+	seo: {
+		OgImage: 'https://vengeance-experts.nuxt.dev/og-image.png',
+		twittercard: 'summary_large_image',
+	},
 })

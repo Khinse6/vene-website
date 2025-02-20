@@ -19,9 +19,6 @@
 </template>
 
 <script setup lang="ts">
-	defineOgImageComponent('BlogPost', {
-		title: 'Is this thing on?',
-	})
 	const client = useSupabaseClient()
 	const currentDate = new Date().toISOString()
 	const { data: upcomingSeries } = await useAsyncData(
