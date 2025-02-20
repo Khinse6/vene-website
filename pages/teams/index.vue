@@ -14,7 +14,7 @@
 		async () => {
 			return await client
 				.from('teams')
-				.select('*, cover(*)')
+				.select('*, cover(*), members(nick)')
 				.ilike('slug', '%vengeance%')
 		},
 		{

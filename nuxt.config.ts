@@ -30,7 +30,6 @@ export default defineNuxtConfig({
 			processCSSVariables: true,
 		},
 	},
-	image: { format: ['webp'] },
 	vite: {
 		plugins: [tailwindcss()],
 		server: {

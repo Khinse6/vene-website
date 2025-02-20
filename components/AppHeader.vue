@@ -7,29 +7,32 @@
 				class="hover:text-orange-peel-500 flex items-center gap-5"
 				to="/"
 			>
-				<NuxtImg src="/logo.png" alt="Org Logo" width="40" format="webp" />
+				<NuxtImg src="/logo.webp" alt="Org Logo" width="40" />
 				<div class="text-lg/5">
 					<p class="uppercase">Vengeance</p>
 					<p class="uppercase">Experts</p>
 				</div>
 			</NuxtLink>
-			<UNavigationMenu
-				:items="links"
-				class="font-goldman hidden lg:flex"
-				orientation="horizontal"
-				:ui="{ label: 'text-s/4' }"
-			/>
-			<USlideover title="Menu" close-icon="i-lucide-arrow-right">
-				<UButton
-					icon="i-material-symbols-menu-rounded"
-					size="xl"
-					variant="link"
-					class="lg:hidden"
+			<div class="flex h-fit flex-row gap-5 self-center">
+				<UNavigationMenu
+					:items="links"
+					class="font-goldman hidden lg:flex"
+					orientation="horizontal"
+					:ui="{ label: 'text-s/4' }"
 				/>
-				<template #body>
-					<UNavigationMenu :items="links" orientation="vertical" />
-				</template>
-			</USlideover>
+				<ColorModeButtonVue />
+				<USlideover title="Menu" close-icon="i-lucide-arrow-right">
+					<UButton
+						icon="i-material-symbols-menu-rounded"
+						variant="outline"
+						class="lg:hidden"
+						color="secondary"
+					/>
+					<template #body>
+						<UNavigationMenu :items="links" orientation="vertical" />
+					</template>
+				</USlideover>
+			</div>
 		</UContainer>
 	</header>
 </template>
