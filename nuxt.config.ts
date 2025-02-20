@@ -1,5 +1,4 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
-import { OgImage } from '#components'
 import tailwindcss from '@tailwindcss/vite'
 export default defineNuxtConfig({
 	ssr: true,
@@ -42,7 +41,10 @@ export default defineNuxtConfig({
 		name: 'Vengeance Experts',
 	},
 	seo: {
-		OgImage: 'https://vengeance-experts.nuxt.dev/og-image.png',
-		twittercard: 'summary_large_image',
+		meta: {
+			ogSiteName: 'Vengeance Experts',
+			ogImage: 'https://vengeance-experts.nuxt.dev/og-image.png',
+			twittercard: 'summary_large_image',
+		},
 	},
 })
