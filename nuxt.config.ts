@@ -39,12 +39,6 @@ export default defineNuxtConfig({
 	site: {
 		url: 'https://vengeance-experts.nuxt.dev/',
 		name: 'Vengeance Experts',
-	},
-	seo: {
-		meta: {
-			ogSiteName: 'Vengeance Experts',
-			ogImage: 'https://vengeance-experts.nuxt.dev/og-image.png',
-			twittercard: 'summary_large_image',
-		},
+		language: 'pt',
 	},
 })

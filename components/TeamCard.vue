@@ -8,8 +8,6 @@
 			:src="team.cover?.url ?? undefined"
 			:alt="team.cover?.alt_txt ?? undefined"
 			class="absolute grayscale transition-all duration-300 group-hover:grayscale-0"
-			sizes="224px xl:280px"
-			format="webp"
 		/>
 		<h2
 			class="font-goldman absolute bottom-0 z-10 w-full bg-black/50 py-5 text-center text-lg/4 font-bold"
