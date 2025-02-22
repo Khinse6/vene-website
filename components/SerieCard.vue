@@ -16,7 +16,7 @@
 					v-if="serie.home_team?.logo?.url && serie.home_team?.logo?.alt_txt"
 					:src="serie.home_team?.logo?.url"
 					:alt="serie.home_team?.logo?.alt_txt"
-					class="h-10 sm:h-12 md:h-16 lg:h-20"
+					class="flex aspect-square h-10 items-center object-contain sm:h-12 md:h-16 lg:h-20"
 					format="webp"
 				/>
 				<p class="font-goldman text-2xl font-bold">
@@ -26,15 +26,11 @@
 					<span v-else>/</span>
 				</p>
 				<NuxtImg
-					v-if="serie.away_team?.logo?.url && serie.away_team?.logo?.alt_txt"
-					:src="serie.away_team?.logo?.url"
-					:alt="serie.away_team?.logo?.alt_txt"
-					class="h-10 sm:h-12 md:h-16 lg:h-20"
+					:src="serie.away_team?.logo?.url ?? undefined"
+					:alt="serie.away_team?.logo?.alt_txt ?? undefined"
+					class="flex aspect-square h-10 items-center object-contain sm:h-12 md:h-16 lg:h-20"
 					format="webp"
 				/>
-				<p v-else class="w-10 text-3xl sm:w-12 md:w-16 lg:w-20">
-					{{ serie.away_team?.name }}
-				</p>
 			</div>
 			<p class="font-goldman text-xs">{{ localDateTime.localDate }}</p>
 			<p class="font-goldman text-xs">{{ localDateTime.localTime }}</p>
