@@ -40,7 +40,7 @@
 				.from('series')
 				.select('*, home_team(*, logo(*)), away_team(*, logo(*)), game(*)')
 				.lte('date', currentDate)
-				.order('date', { ascending: true })
+				.order('date', { ascending: false })
 				.limit(3)
 		},
 		{ transform: (result) => result.data }

@@ -15,6 +15,9 @@ export default defineNuxtConfig({
 	devtools: {
 		enabled: true,
 	},
+	ui: {
+		colorMode: false,
+	},
 	css: ['~/assets/css/main.css'],
 	supabase: {
 		redirect: false,

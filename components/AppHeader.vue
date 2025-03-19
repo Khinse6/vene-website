@@ -20,7 +20,6 @@
 					orientation="horizontal"
 					:ui="{ label: 'text-s/4' }"
 				/>
-				<ColorModeButtonVue />
 				<UDrawer v-model:open="open" class="w-fit">
 					<UButton
 						icon="i-material-symbols-menu-rounded"
