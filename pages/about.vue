@@ -4,7 +4,7 @@
 
 	const client = useSupabaseClient()
 	const token = ref()
-	const response1 = ref('')
+	const response = ref('')
 	const { data: availableGames } = await useAsyncData(
 		'available-games',
 		async () => {
@@ -120,21 +120,16 @@
 
 	const toast = useToast()
 	async function onSubmit(event: FormSubmitEvent<Schema>) {
-		response1.value = await $fetch('/api/submit', {
+		response.value = await $fetch('/api/submit', {
 			method: 'POST',
 			body: {
 				token: token.value,
 			},
 		})
-		console.log(token.value)
-		if (!token.value) {
-			toast.add({
-				title: 'Error',
-				description: 'Please complete the CAPTCHA.',
-				color: 'warning',
-			})
+		if (!response.value.success) {
 			return
 		}
+
 		await client.from('forms').insert([
 			{
 				name: event.data.name,
@@ -344,5 +339,4 @@
 			label="Submeter"
 		/>
 	</UForm>
-	<pre>{{ response1 }}</pre>
 </template>
