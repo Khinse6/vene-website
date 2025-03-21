@@ -43,5 +43,4 @@ export default defineNuxtConfig({
 		name: 'Vengeance Experts',
 		language: 'pt',
 	},
-	turnstile:{addValidateEndpoint:true}
 })
