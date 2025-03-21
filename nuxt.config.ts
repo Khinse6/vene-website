@@ -12,6 +12,7 @@ export default defineNuxtConfig({
 		'@nuxt/eslint',
 		'@nuxtjs/supabase',
 		'@nuxthub/core',
+		'@nuxtjs/turnstile',
 	],
 	devtools: {
 		enabled: true,

@@ -33,6 +33,7 @@
 		about: z.string().min(10),
 		comp: z.boolean().default(false),
 		week: z.array(scheduleSchema),
+		token: z.string(),
 	})
 
 	const gameSchema = z.object({
@@ -118,23 +119,61 @@
 
 	const toast = useToast()
 	async function onSubmit(event: FormSubmitEvent<Schema>) {
-		await client.from('forms').insert([
-			{
-				name: event.data.name,
-				age: event.data.age,
-				discord: event.data.discord,
-				about: event.data.about,
-				comp: event.data.comp,
-				week: event.data.week,
-				games: state.games,
-				experience: event.data.comp ? state.experience : null,
-			},
-		])
-		toast.add({
-			title: 'Success',
-			description: 'The form has been submitted.',
-			color: 'success',
-		})
+		try {
+			// 1. Check if CAPTCHA token exists
+			const captchaResponse = state.token
+
+			if (!captchaResponse) {
+				toast.add({
+					title: 'Error',
+					description: 'Please complete the CAPTCHA.',
+					color: 'warning',
+				})
+				return
+			}
+
+			const verificationRes = await $fetch('/api/verify-captcha', {
+				method: 'POST',
+				body: { token: captchaResponse },
+			})
+
+			if (!verificationRes.success) {
+				throw new Error('Captcha verification failed. Please try again.')
+			}
+
+			await client.from('forms').insert([
+				{
+					name: event.data.name,
+					age: event.data.age,
+					discord: event.data.discord,
+					about: event.data.about,
+					comp: event.data.comp,
+					week: event.data.week,
+					games: state.games,
+					experience: event.data.comp ? state.experience : null,
+				},
+			])
+
+			toast.add({
+				title: 'Success',
+				description: 'The form has been submitted.',
+				color: 'success',
+			})
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				toast.add({
+					title: 'Error',
+					description: error.message,
+					color: 'warning',
+				})
+			} else {
+				toast.add({
+					title: 'Error',
+					description: 'An unknown error occurred.',
+					color: 'warning',
+				})
+			}
+		}
 	}
 </script>
 
@@ -316,6 +355,10 @@
 				class="w-full"
 			/>
 		</UFormField>
+		<NuxtTurnstile
+			v-model="state.token"
+			class="py-4"
+		/>
 		<UButton
 			type="submit"
 			label="Submeter"
