@@ -34,6 +34,42 @@ export type Database = {
 	}
 	public: {
 		Tables: {
+			forms: {
+				Row: {
+					about: string | null
+					age: number | null
+					comp: boolean | null
+					discord: string | null
+					experience: string | null
+					games: Json | null
+					id: number
+					name: string | null
+					week: Json | null
+				}
+				Insert: {
+					about?: string | null
+					age?: number | null
+					comp?: boolean | null
+					discord?: string | null
+					experience?: string | null
+					games?: Json | null
+					id?: number
+					name?: string | null
+					week?: Json | null
+				}
+				Update: {
+					about?: string | null
+					age?: number | null
+					comp?: boolean | null
+					discord?: string | null
+					experience?: string | null
+					games?: Json | null
+					id?: number
+					name?: string | null
+					week?: Json | null
+				}
+				Relationships: []
+			}
 			games: {
 				Row: {
 					alias: string | null

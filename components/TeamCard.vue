@@ -1,3 +1,11 @@
+<script setup lang="ts">
+	defineProps<{
+		team: Tables<'teams'> & {
+			cover?: Tables<'images'> | null
+		}
+	}>()
+</script>
+
 <template>
 	<NuxtLink
 		class="group relative aspect-2/3 w-56 bg-gray-200 xl:w-70"
@@ -16,11 +24,3 @@
 		</h2>
 	</NuxtLink>
 </template>
-
-<script setup lang="ts">
-	const props = defineProps<{
-		team: Tables<'teams'> & {
-			cover?: Tables<'images'> | null
-		}
-	}>()
-</script>
