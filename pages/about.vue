@@ -120,16 +120,6 @@
 
 	const toast = useToast()
 	async function onSubmit(event: FormSubmitEvent<Schema>) {
-		response.value = await $fetch('/api/submit', {
-			method: 'POST',
-			body: {
-				token: token.value,
-			},
-		})
-		if (!response.value.success) {
-			return
-		}
-
 		await client.from('forms').insert([
 			{
 				name: event.data.name,
@@ -329,11 +319,6 @@
 				class="w-full"
 			/>
 		</UFormField>
-		<NuxtTurnstile
-			v-model="token"
-			class="py-4"
-			:options="{ action: 'vue' }"
-		/>
 		<UButton
 			type="submit"
 			label="Submeter"
