@@ -119,61 +119,24 @@
 
 	const toast = useToast()
 	async function onSubmit(event: FormSubmitEvent<Schema>) {
-		try {
-			// 1. Check if CAPTCHA token exists
-			const captchaResponse = state.token
+		await client.from('forms').insert([
+			{
+				name: event.data.name,
+				age: event.data.age,
+				discord: event.data.discord,
+				about: event.data.about,
+				comp: event.data.comp,
+				week: event.data.week,
+				games: state.games,
+				experience: event.data.comp ? state.experience : null,
+			},
+		])
 
-			if (!captchaResponse) {
-				toast.add({
-					title: 'Error',
-					description: 'Please complete the CAPTCHA.',
-					color: 'warning',
-				})
-				return
-			}
-
-			const verificationRes = await $fetch('/api/verify-captcha', {
-				method: 'POST',
-				body: { token: captchaResponse },
-			})
-
-			if (!verificationRes.success) {
-				throw new Error('Captcha verification failed. Please try again.')
-			}
-
-			await client.from('forms').insert([
-				{
-					name: event.data.name,
-					age: event.data.age,
-					discord: event.data.discord,
-					about: event.data.about,
-					comp: event.data.comp,
-					week: event.data.week,
-					games: state.games,
-					experience: event.data.comp ? state.experience : null,
-				},
-			])
-
-			toast.add({
-				title: 'Success',
-				description: 'The form has been submitted.',
-				color: 'success',
-			})
-		} catch (error: unknown) {
-			if (error instanceof Error) {
-				toast.add({
-					title: 'Error',
-					description: error.message,
-					color: 'warning',
-				})
-			} else {
-				toast.add({
-					title: 'Error',
-					description: 'An unknown error occurred.',
-					color: 'warning',
-				})
-			}
-		}
+		toast.add({
+			title: 'Success',
+			description: 'The form has been submitted.',
+			color: 'success',
+		})
 	}
 </script>
 
@@ -207,7 +170,7 @@
 		:schema="schema"
 		:state="state"
 		class="space-y-4"
-		@submit="onSubmit"
+		@submit.prevent="onSubmit"
 	>
 		<h3 class="text-xl font-bold">Junta-te a Nós</h3>
 		<div class="flex gap-7">
