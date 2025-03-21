@@ -3,6 +3,7 @@
 	import * as z from 'zod'
 
 	const client = useSupabaseClient()
+	const token = ref()
 	const { data: availableGames } = await useAsyncData(
 		'available-games',
 		async () => {
@@ -33,7 +34,6 @@
 		about: z.string().min(10),
 		comp: z.boolean().default(false),
 		week: z.array(scheduleSchema),
-		token: z.string(),
 	})
 
 	const gameSchema = z.object({
@@ -319,7 +319,7 @@
 			/>
 		</UFormField>
 		<NuxtTurnstile
-			v-model="state.token"
+			v-model="token"
 			class="py-4"
 		/>
 		<UButton
