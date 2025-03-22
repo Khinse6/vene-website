@@ -54,7 +54,7 @@
 		v-if="team?.members"
 		class="flex w-full flex-wrap justify-center gap-5"
 	>
-		<MemberCard
+		<AppMemberCard
 			v-for="m in team?.members"
 			:key="m.id"
 			class="basis-40 sm:basis-1/4 xl:basis-1/6"

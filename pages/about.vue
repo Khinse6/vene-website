@@ -1,24 +1,9 @@
 <script setup lang="ts">
 	import type { FormSubmitEvent, TableColumn } from '@nuxt/ui'
-	import type * as z from 'zod'
-
-	const client = useSupabaseClient()
-	const { data: availableGames } = await useAsyncData(
+	const { data: availableGames, error } = await useAsyncData(
 		'available-games',
-		async () => {
-			const { data } = await client
-				.from('games')
-				.select('name')
-				.order('name', { ascending: true })
-
-			return data?.map((game) => game.name) ?? []
-		}
+		() => $fetch('/api/availableGames')
 	)
-
-	type Schema = z.output<typeof mainSchema>
-	type DaySchema = z.output<typeof daySchema>
-	type GameSchema = z.output<typeof gameSchema>
-	type ExpSchema = z.output<typeof expSchema>
 
 	const columns: TableColumn<DaySchema>[] = [
 		{ accessorKey: 'day', header: 'Dia' },
@@ -64,24 +49,29 @@
 		state.games[index].game = item
 	}
 
-	const toast = useToast()
 	async function onSubmit(formEvent: FormSubmitEvent<Schema>) {
+		const toast = useToast()
 		try {
-			const response = await fetch('/api/submitForm', {
+			const { data, error } = await useFetch('/api/submitForm', {
 				method: 'POST',
+				body: {
+					...formEvent.data,
+					token: token.value,
+				},
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({
-					...formEvent.data,
-					token: token.value,
-				}),
 			})
-			const result = await response.json()
+
+			if (error.value) {
+				throw new Error(error.value.message || 'Unknown error')
+			}
+
+			const result = data.value
 			toast.add({
-				title: result.success ? 'Success' : 'Failed',
-				description: result.message,
-				color: result.success ? 'success' : 'error',
+				title: result?.success ? 'Success' : 'Failed',
+				description: result?.message,
+				color: result?.success ? 'success' : 'error',
 			})
 		} catch (error) {
 			let errorMessage = 'An unknown error occurred.'

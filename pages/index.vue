@@ -1,7 +1,7 @@
 <script setup lang="ts">
 	const client = useSupabaseClient()
 	const currentDate = new Date().toISOString()
-	const { data: upcomingSeries } = await useAsyncData(
+	const { data: upcomingSeries, error: upcomingError } = await useAsyncData(
 		'upcoming-series',
 		async () => {
 			return await client
@@ -35,7 +35,7 @@
 				v-if="upcomingSeries?.length"
 				class="my-5 flex flex-col gap-5"
 			>
-				<SerieCard
+				<AppSerieCard
 					v-for="s in upcomingSeries"
 					:key="s.id"
 					:serie="s"
@@ -50,7 +50,7 @@
 				v-if="pastSeries?.length"
 				class="my-5 flex flex-col gap-5"
 			>
-				<SerieCard
+				<AppSerieCard
 					v-for="s in pastSeries"
 					:key="s.id"
 					:serie="s"
