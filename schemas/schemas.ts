@@ -1,11 +1,10 @@
 import * as z from 'zod'
 
 export const gameSchema = z.object({
-		game: z.string(),
-		role: z.string().nonempty(),
-		rank: z.string().nonempty(),
-	})
-
+	game: z.string(),
+	role: z.string().nonempty(),
+	rank: z.string().nonempty(),
+})
 
 export const expSchema = z.object({
 	experience: z.string().min(10),

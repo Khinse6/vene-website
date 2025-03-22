@@ -1,13 +1,13 @@
 <script setup lang="ts">
 	import type { FormSubmitEvent, TableColumn } from '@nuxt/ui'
 	import {
+		type daySchema,
 		mainSchema,
 		expSchema,
 		weekLabels,
-		daySchema,
 		gameSchema,
 	} from '~/schemas/schemas'
-	import * as z from 'zod'
+	import type * as z from 'zod'
 
 	const client = useSupabaseClient()
 	const { data: availableGames } = await useAsyncData(
