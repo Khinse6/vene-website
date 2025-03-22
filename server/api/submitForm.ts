@@ -1,5 +1,5 @@
 import { defineEventHandler, readBody } from 'h3'
-import { mainSchema } from '@/schemas/schemas'
+import { mainSchema } from '~/utils/schemas'
 import { serverSupabaseClient } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {

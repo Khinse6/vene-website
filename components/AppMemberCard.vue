@@ -8,9 +8,9 @@
 	<div class="relative aspect-2/3 w-full bg-gray-200">
 		<NuxtImg
 			v-if="member.card?.url && member.card?.alt_txt"
+			class="absolute inset-0 h-full w-full object-cover"
 			:src="member.card?.url"
 			:alt="member.card?.alt_txt!"
-			class="absolute inset-0 h-full w-full object-cover"
 			format="webp"
 		/>
 		<h2

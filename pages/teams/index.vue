@@ -19,6 +19,10 @@
 		v-if="teams && teams.length"
 		class="flex w-full flex-wrap justify-center gap-5"
 	>
-		<TeamCard v-for="t in teams" :key="t.slug!" :team="t" />
+		<TeamCard
+			v-for="t in teams"
+			:key="t.slug!"
+			:team="t"
+		/>
 	</div>
 </template>

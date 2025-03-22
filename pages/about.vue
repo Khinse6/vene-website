@@ -1,12 +1,5 @@
 <script setup lang="ts">
 	import type { FormSubmitEvent, TableColumn } from '@nuxt/ui'
-	import {
-		type daySchema,
-		mainSchema,
-		expSchema,
-		weekLabels,
-		gameSchema,
-	} from '~/schemas/schemas'
 	import type * as z from 'zod'
 
 	const client = useSupabaseClient()
@@ -62,6 +55,13 @@
 		if (state.games && state.games.length > 1) {
 			state.games.splice(index, 1)
 		}
+	}
+	function onCreate(item: string, index: number) {
+		if (!state.games) {
+			state.games = []
+		}
+		availableGames.value?.push(item)
+		state.games[index].game = item
 	}
 
 	const toast = useToast()
@@ -128,47 +128,85 @@
 		<p class="pb-8 font-bold">Call Out your Vengeance</p>
 	</section>
 	<UForm
+		class="space-y-4"
 		:schema="mainSchema"
 		:state="state"
-		class="space-y-4"
 		@submit.prevent="onSubmit"
 	>
 		<h3 class="text-xl font-bold">Junta-te a Nós</h3>
 		<div class="flex gap-7">
-			<UFormField label="Nome" name="name" required>
-				<UInput v-model="state.name" placeholder="Fulano Tal" />
+			<UFormField
+				label="Nome"
+				name="name"
+				required
+			>
+				<UInput
+					v-model="state.name"
+					placeholder="Fulano Tal"
+				/>
 			</UFormField>
-			<UFormField label="Discord Username" name="discord" required>
-				<UInput v-model="state.discord" placeholder="fulano_tal" />
+			<UFormField
+				label="Discord Username"
+				name="discord"
+				required
+			>
+				<UInput
+					v-model="state.discord"
+					placeholder="fulano_tal"
+				/>
 			</UFormField>
-			<UFormField label="Idade" name="age" required>
+			<UFormField
+				label="Idade"
+				name="age"
+				required
+			>
 				<UInputNumber
 					v-model="state.age"
+					class="w-16"
 					placeholder="21"
 					orientation="vertical"
-					class="w-16"
 				/>
 			</UFormField>
 		</div>
 		<UForm
 			v-for="(game, count) in state.games"
 			:key="count"
+			class="flex items-center gap-2"
 			:state="game"
 			:schema="gameSchema"
-			class="flex items-center gap-2"
 		>
-			<UFormField :label="!count ? 'Jogo' : undefined" name="game" required>
-				<USelectMenu
+			<UFormField
+				:label="!count ? 'Jogo' : undefined"
+				name="game"
+				required
+			>
+				<UInputMenu
 					v-model="game.game"
-					:items="availableGames ?? []"
 					class="w-52"
+					:items="availableGames ?? []"
+					create-item="always"
+					@create="(item) => onCreate(item, count)"
 				/>
 			</UFormField>
-			<UFormField :label="!count ? 'Role' : undefined" name="role" required>
-				<UInput v-model="game.role" class="w-28" />
+			<UFormField
+				:label="!count ? 'Role' : undefined"
+				name="role"
+				required
+			>
+				<UInput
+					v-model="game.role"
+					class="w-28"
+				/>
 			</UFormField>
-			<UFormField :label="!count ? 'Rank' : undefined" name="rank" required>
-				<UInput v-model="game.rank" class="w-28" />
+			<UFormField
+				:label="!count ? 'Rank' : undefined"
+				name="rank"
+				required
+			>
+				<UInput
+					v-model="game.rank"
+					class="w-28"
+				/>
 			</UFormField>
 			<UButton
 				icon="i-lucide-x"
@@ -179,15 +217,19 @@
 			/>
 		</UForm>
 		<UButton
+			class="w-full justify-center"
 			icon="i-lucide-plus"
 			color="neutral"
 			variant="subtle"
 			size="sm"
-			class="w-full justify-center"
 			label="Adicionar Jogo"
 			@click="addGame()"
 		/>
-		<UTable v-if="state.week" :data="state.week" :columns="columns">
+		<UTable
+			v-if="state.week"
+			:data="state.week"
+			:columns="columns"
+		>
 			<template #morning-cell="{ row }">
 				<UCheckbox v-model="state.week[row.index].morning" />
 			</template>
@@ -204,18 +246,37 @@
 			label="Tens alguma experiência competitva?"
 			@update:model-value="state.experience = undefined"
 		/>
-		<UForm v-if="state.comp" :state="state" :schema="expSchema">
-			<UFormField label="Conta-nos mais" name="experience">
-				<UTextarea v-model="state.experience" class="w-full" />
+		<UForm
+			v-if="state.comp"
+			:state="state"
+			:schema="expSchema"
+		>
+			<UFormField
+				label="Conta-nos mais"
+				name="experience"
+			>
+				<UTextarea
+					v-model="state.experience"
+					class="w-full"
+				/>
 			</UFormField>
 		</UForm>
 		<UFormField
 			label="Qual a tua ambição / objetivo ao juntares-te a nós?"
 			name="about"
 		>
-			<UTextarea v-model="state.about" class="w-full" />
+			<UTextarea
+				v-model="state.about"
+				class="w-full"
+			/>
 		</UFormField>
-		<NuxtTurnstile v-model="token" />
-		<UButton type="submit" label="Submeter" />
+		<NuxtTurnstile
+			v-model="token"
+			:options="{ theme: 'dark' }"
+		/>
+		<UButton
+			type="submit"
+			label="Submeter"
+		/>
 	</UForm>
 </template>
