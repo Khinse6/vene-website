@@ -1,8 +1,7 @@
 <script setup lang="ts">
 	import type { FormSubmitEvent, TableColumn } from '@nuxt/ui'
-	const { data: availableGames, error } = await useAsyncData(
-		'available-games',
-		() => $fetch('/api/availableGames')
+	const { data: availableGames } = await useAsyncData('available-games', () =>
+		$fetch('/api/availableGames')
 	)
 
 	const columns: TableColumn<DaySchema>[] = [

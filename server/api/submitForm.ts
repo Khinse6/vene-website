@@ -1,4 +1,4 @@
-import { defineEventHandler, readBody } from 'h3'
+import { defineEventHandler, readBody, sendError, createError } from 'h3'
 import { mainSchema } from '~/utils/schemas'
 import { serverSupabaseClient } from '#supabase/server'
 
@@ -7,16 +7,23 @@ export default defineEventHandler(async (event) => {
 	const client = await serverSupabaseClient(event)
 
 	try {
-		const isValid = await verifyTurnstileToken(body.token, event)
+		const isValid = await verifyTurnstileToken(body.token)
 		if (!isValid) {
-			throw new Error('CAPTCHA verification failed')
+			throw createError({
+				statusCode: 400,
+				statusMessage: 'CAPTCHA verification failed',
+			})
 		}
+
 		const { token, ...formData } = body
 		const validatedData = mainSchema.parse(formData)
 
 		const { error } = await client.from('forms').insert(validatedData)
 		if (error) {
-			throw new Error('Failed to insert data into the database')
+			throw createError({
+				statusCode: 500,
+				statusMessage: 'Failed to insert data into the database',
+			})
 		}
 
 		return {
@@ -24,9 +31,11 @@ export default defineEventHandler(async (event) => {
 			message: 'Form submitted successfully',
 		}
 	} catch (error) {
-		return {
-			success: false,
-			message: error instanceof Error ? error.message : 'Invalid data',
-		}
+		return sendError(
+			event,
+			error instanceof Error
+				? createError({ statusCode: 500, statusMessage: error.message })
+				: createError({ statusCode: 500, statusMessage: 'Invalid data' })
+		)
 	}
 })

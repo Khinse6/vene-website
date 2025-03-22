@@ -44,7 +44,7 @@ export const mainSchema = z.object({
 		}),
 })
 
-	export type Schema = z.output<typeof mainSchema>
-	export type DaySchema = z.output<typeof daySchema>
-	export type GameSchema = z.output<typeof gameSchema>
-	export type ExpSchema = z.output<typeof expSchema>
+export type Schema = z.output<typeof mainSchema>
+export type DaySchema = z.output<typeof daySchema>
+export type GameSchema = z.output<typeof gameSchema>
+export type ExpSchema = z.output<typeof expSchema>

@@ -1,29 +1,6 @@
 <script setup lang="ts">
-	const client = useSupabaseClient()
-	const currentDate = new Date().toISOString()
-	const { data: upcomingSeries, error: upcomingError } = await useAsyncData(
-		'upcoming-series',
-		async () => {
-			return await client
-				.from('series')
-				.select('*, home_team(*, logo(*)), away_team(*, logo(*)), game(*)')
-				.gt('date', currentDate)
-				.order('date', { ascending: true })
-				.limit(3)
-		},
-		{ transform: (result) => result.data }
-	)
-	const { data: pastSeries } = await useAsyncData(
-		'past-series',
-		async () => {
-			return await client
-				.from('series')
-				.select('*, home_team(*, logo(*)), away_team(*, logo(*)), game(*)')
-				.lte('date', currentDate)
-				.order('date', { ascending: false })
-				.limit(3)
-		},
-		{ transform: (result) => result.data }
+	const { data: series } = await useAsyncData('series', () =>
+		$fetch('/api/series?limit=3')
 	)
 </script>
 
@@ -32,11 +9,11 @@
 		<section class="w-full text-center">
 			<h2 class="font-goldman text-xl font-bold">Upcoming Series</h2>
 			<div
-				v-if="upcomingSeries?.length"
+				v-if="series?.upcomingSeries?.length"
 				class="my-5 flex flex-col gap-5"
 			>
 				<AppSerieCard
-					v-for="s in upcomingSeries"
+					v-for="s in series.upcomingSeries"
 					:key="s.id"
 					:serie="s"
 				/>
@@ -47,11 +24,11 @@
 		<section class="w-full text-center">
 			<h2 class="font-goldman text-xl font-bold">Past Series</h2>
 			<div
-				v-if="pastSeries?.length"
+				v-if="series?.pastSeries?.length"
 				class="my-5 flex flex-col gap-5"
 			>
 				<AppSerieCard
-					v-for="s in pastSeries"
+					v-for="s in series.pastSeries"
 					:key="s.id"
 					:serie="s"
 				/>

@@ -1,16 +1,6 @@
 <script setup lang="ts">
-	const client = useSupabaseClient()
-	const { data: teams } = await useAsyncData(
-		'teams',
-		async () => {
-			return await client
-				.from('teams')
-				.select('*, cover(*), members(nick)')
-				.ilike('slug', '%vengeance%')
-		},
-		{
-			transform: (result) => result.data,
-		}
+	const { data: teams } = await useAsyncData('teams', () =>
+		$fetch('/api/teams')
 	)
 </script>
 

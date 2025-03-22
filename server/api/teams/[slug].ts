@@ -3,18 +3,29 @@ import { serverSupabaseClient } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
 	const client = await serverSupabaseClient(event)
+	const slug = event.context.params?.slug
+
+	if (!slug) {
+		return sendError(
+			event,
+			createError({ statusCode: 400, statusMessage: 'Slug is required' })
+		)
+	}
 
 	try {
 		const { data, error } = await client
-			.from('games')
-			.select('name')
-			.order('name', { ascending: true })
+			.from('teams')
+			.select(
+				'*, members:members(*, card(*)), home_series:series!Serie_home_team_fkey(*), away_series:series!Serie_away_team_fkey(*)'
+			)
+			.ilike('slug', slug)
+			.single()
 
 		if (error) {
 			throw createError({ statusCode: 500, statusMessage: error.message })
 		}
 
-		return data?.map((game) => game.name) || []
+		return data
 	} catch (error) {
 		sendError(
 			event,
@@ -22,5 +33,6 @@ export default defineEventHandler(async (event) => {
 				? error
 				: createError({ statusCode: 500, statusMessage: 'An error occurred' })
 		)
+		return null
 	}
 })
