@@ -27,11 +27,7 @@
 				class="hover:text-orange-peel-500 flex items-center gap-5"
 				to="/"
 			>
-				<NuxtImg
-					src="/logo.png"
-					alt="Org Logo"
-					width="40"
-				/>
+				<NuxtImg src="/logo.png" alt="Org Logo" width="40" />
 				<div class="text-lg/5">
 					<p class="uppercase">Vengeance</p>
 					<p class="uppercase">Experts</p>
@@ -44,10 +40,7 @@
 					orientation="horizontal"
 					:ui="{ label: 'text-s/4' }"
 				/>
-				<UDrawer
-					v-model:open="open"
-					class="w-fit"
-				>
+				<UDrawer v-model:open="open" class="w-fit">
 					<UButton
 						icon="i-material-symbols-menu-rounded"
 						variant="outline"

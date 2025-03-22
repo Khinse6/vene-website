@@ -1,10 +1,15 @@
 <script setup lang="ts">
 	import type { FormSubmitEvent, TableColumn } from '@nuxt/ui'
+	import {
+		mainSchema,
+		expSchema,
+		weekLabels,
+		daySchema,
+		gameSchema,
+	} from '~/schemas/schemas'
 	import * as z from 'zod'
 
 	const client = useSupabaseClient()
-	const token = ref()
-	const response = ref('')
 	const { data: availableGames } = await useAsyncData(
 		'available-games',
 		async () => {
@@ -13,45 +18,22 @@
 				.select('name')
 				.order('name', { ascending: true })
 
-			return data?.map((game) => game.name)
+			return data?.map((game) => game.name) ?? []
 		}
 	)
 
-	const scheduleSchema = z.object({
-		label: z.string(),
-		monday: z.boolean().default(false),
-		tuesday: z.boolean().default(false),
-		wednesday: z.boolean().default(false),
-		thursday: z.boolean().default(false),
-		friday: z.boolean().default(false),
-		saturday: z.boolean().default(false),
-		sunday: z.boolean().default(false),
-	})
-
-	const schema = z.object({
-		name: z.string(),
-		age: z.number().positive(),
-		discord: z.string(),
-		about: z.string().min(10),
-		comp: z.boolean().default(false),
-		week: z.array(scheduleSchema),
-	})
-
-	const gameSchema = z.object({
-		game: z.string(),
-		role: z.string().nonempty(),
-		rank: z.string().nonempty(),
-	})
-
-	const expSchema = z.object({
-		experience: z.string().min(10),
-	})
-
-	type Schema = z.output<typeof schema>
+	type Schema = z.output<typeof mainSchema>
+	type DaySchema = z.output<typeof daySchema>
 	type GameSchema = z.output<typeof gameSchema>
 	type ExpSchema = z.output<typeof expSchema>
-	type ScheduleSchema = z.output<typeof scheduleSchema>
 
+	const columns: TableColumn<DaySchema>[] = [
+		{ accessorKey: 'day', header: 'Dia' },
+		{ accessorKey: 'morning', header: '08h - 12h' },
+		{ accessorKey: 'afternoon', header: '12h - 19h' },
+		{ accessorKey: 'evening', header: '19h - 24h' },
+	]
+	const token = ref()
 	const state = reactive<
 		Partial<
 			Schema &
@@ -60,51 +42,15 @@
 				}
 		>
 	>({
-		games: [{}],
-		week: [
-			{
-				label: 'Manhã (08h00 - 12h00)',
-				monday: false,
-				tuesday: false,
-				wednesday: false,
-				thursday: false,
-				friday: false,
-				saturday: false,
-				sunday: false,
-			},
-			{
-				label: 'Tarde (12h00 - 19h00)',
-				monday: false,
-				tuesday: false,
-				wednesday: false,
-				thursday: false,
-				friday: false,
-				saturday: false,
-				sunday: false,
-			},
-			{
-				label: 'Noite (19h00 - 00h00)',
-				monday: false,
-				tuesday: false,
-				wednesday: false,
-				thursday: false,
-				friday: false,
-				saturday: false,
-				sunday: false,
-			},
-		],
+		games: [{ game: '', role: '', rank: '' }],
+		week: weekLabels.map((day) => ({
+			day,
+			morning: false,
+			afternoon: false,
+			evening: false,
+		})),
 	})
 
-	const columns: TableColumn<ScheduleSchema>[] = [
-		{ accessorKey: 'label', header: 'Horário' },
-		{ accessorKey: 'monday', header: 'Segunda' },
-		{ accessorKey: 'tuesday', header: 'Terça' },
-		{ accessorKey: 'wednesday', header: 'Quarta' },
-		{ accessorKey: 'thursday', header: 'Quinta' },
-		{ accessorKey: 'friday', header: 'Sexta' },
-		{ accessorKey: 'saturday', header: 'Sábado' },
-		{ accessorKey: 'sunday', header: 'Domingo' },
-	]
 	function addGame() {
 		if (!state.games) {
 			state.games = []
@@ -119,25 +65,39 @@
 	}
 
 	const toast = useToast()
-	async function onSubmit(event: FormSubmitEvent<Schema>) {
-		await client.from('forms').insert([
-			{
-				name: event.data.name,
-				age: event.data.age,
-				discord: event.data.discord,
-				about: event.data.about,
-				comp: event.data.comp,
-				week: event.data.week,
-				games: state.games,
-				experience: event.data.comp ? state.experience : null,
-			},
-		])
+	async function onSubmit(formEvent: FormSubmitEvent<Schema>) {
+		try {
+			const response = await fetch('/api/submitForm', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					...formEvent.data,
+					token: token.value,
+				}),
+			})
+			const result = await response.json()
+			toast.add({
+				title: result.success ? 'Success' : 'Failed',
+				description: result.message,
+				color: result.success ? 'success' : 'error',
+			})
+		} catch (error) {
+			let errorMessage = 'An unknown error occurred.'
 
-		toast.add({
-			title: 'Success',
-			description: 'The form has been submitted.',
-			color: 'success',
-		})
+			if (error instanceof Error) {
+				errorMessage = error.message
+			} else if (typeof error === 'string') {
+				errorMessage = error
+			}
+
+			toast.add({
+				title: 'Error',
+				description: errorMessage,
+				color: 'error',
+			})
+		}
 	}
 </script>
 
@@ -168,38 +128,20 @@
 		<p class="pb-8 font-bold">Call Out your Vengeance</p>
 	</section>
 	<UForm
-		:schema="schema"
+		:schema="mainSchema"
 		:state="state"
 		class="space-y-4"
 		@submit.prevent="onSubmit"
 	>
 		<h3 class="text-xl font-bold">Junta-te a Nós</h3>
 		<div class="flex gap-7">
-			<UFormField
-				label="Nome"
-				name="name"
-				required
-			>
-				<UInput
-					v-model="state.name"
-					placeholder="Fulano Tal"
-				/>
+			<UFormField label="Nome" name="name" required>
+				<UInput v-model="state.name" placeholder="Fulano Tal" />
 			</UFormField>
-			<UFormField
-				label="Discord Username"
-				name="discord"
-				required
-			>
-				<UInput
-					v-model="state.discord"
-					placeholder="fulano_tal"
-				/>
+			<UFormField label="Discord Username" name="discord" required>
+				<UInput v-model="state.discord" placeholder="fulano_tal" />
 			</UFormField>
-			<UFormField
-				label="Idade"
-				name="age"
-				required
-			>
+			<UFormField label="Idade" name="age" required>
 				<UInputNumber
 					v-model="state.age"
 					placeholder="21"
@@ -215,113 +157,65 @@
 			:schema="gameSchema"
 			class="flex items-center gap-2"
 		>
-			<UFormField
-				:label="!count ? 'Jogo' : undefined"
-				name="game"
-				required
-			>
+			<UFormField :label="!count ? 'Jogo' : undefined" name="game" required>
 				<USelectMenu
 					v-model="game.game"
 					:items="availableGames ?? []"
 					class="w-52"
 				/>
 			</UFormField>
-			<UFormField
-				:label="!count ? 'Role' : undefined"
-				name="role"
-				required
-				class="w-28"
-			>
-				<UInput v-model="game.role" />
+			<UFormField :label="!count ? 'Role' : undefined" name="role" required>
+				<UInput v-model="game.role" class="w-28" />
 			</UFormField>
-			<UFormField
-				:label="!count ? 'Rank' : undefined"
-				name="rank"
-				required
-				class="w-28"
-			>
-				<UInput v-model="game.rank" />
+			<UFormField :label="!count ? 'Rank' : undefined" name="rank" required>
+				<UInput v-model="game.rank" class="w-28" />
 			</UFormField>
 			<UButton
 				icon="i-lucide-x"
-				size="md"
-				color="warning"
-				variant="ghost"
-				:class="count === 0 ? 'mt-6' : ''"
+				variant="outline"
+				color="error"
+				:class="!count ? 'mt-6' : ''"
 				@click="removeGame(count)"
 			/>
 		</UForm>
-		<div class="flex gap-2">
-			<UButton
-				color="neutral"
-				variant="subtle"
-				size="sm"
-				label="Adicionar Jogo"
-				@click="addGame()"
-			/>
-		</div>
-		<UTable
-			v-if="state.week"
-			:data="state.week"
-			:columns="columns"
-		>
-			<template #monday-cell="{ row }">
-				<UCheckbox v-model="state.week[row.index].monday" />
+		<UButton
+			icon="i-lucide-plus"
+			color="neutral"
+			variant="subtle"
+			size="sm"
+			class="w-full justify-center"
+			label="Adicionar Jogo"
+			@click="addGame()"
+		/>
+		<UTable v-if="state.week" :data="state.week" :columns="columns">
+			<template #morning-cell="{ row }">
+				<UCheckbox v-model="state.week[row.index].morning" />
 			</template>
-			<template #tuesday-cell="{ row }">
-				<UCheckbox v-model="state.week[row.index].tuesday" />
+			<template #afternoon-cell="{ row }">
+				<UCheckbox v-model="state.week[row.index].afternoon" />
 			</template>
-			<template #wednesday-cell="{ row }">
-				<UCheckbox v-model="state.week[row.index].wednesday" />
-			</template>
-			<template #thursday-cell="{ row }">
-				<UCheckbox v-model="state.week[row.index].thursday" />
-			</template>
-			<template #friday-cell="{ row }">
-				<UCheckbox v-model="state.week[row.index].friday" />
-			</template>
-			<template #saturday-cell="{ row }">
-				<UCheckbox v-model="state.week[row.index].saturday" />
-			</template>
-			<template #sunday-cell="{ row }">
-				<UCheckbox v-model="state.week[row.index].sunday" />
+			<template #evening-cell="{ row }">
+				<UCheckbox v-model="state.week[row.index].evening" />
 			</template>
 		</UTable>
-		<div>
-			<UCheckbox
-				v-model="state.comp"
-				name="comp"
-				label="Tens alguma experiência competitva?"
-				@update:model-value="state.experience = undefined"
-			/>
-		</div>
-		<UForm
-			v-if="state.comp"
-			:state="state"
-			:schema="expSchema"
-		>
-			<UFormField
-				label="Conta-nos mais"
-				name="experience"
-			>
-				<UTextarea
-					v-model="state.experience"
-					class="w-full"
-				/>
+		<UCheckbox
+			v-model="state.comp"
+			name="comp"
+			label="Tens alguma experiência competitva?"
+			@update:model-value="state.experience = undefined"
+		/>
+		<UForm v-if="state.comp" :state="state" :schema="expSchema">
+			<UFormField label="Conta-nos mais" name="experience">
+				<UTextarea v-model="state.experience" class="w-full" />
 			</UFormField>
 		</UForm>
 		<UFormField
 			label="Qual a tua ambição / objetivo ao juntares-te a nós?"
 			name="about"
 		>
-			<UTextarea
-				v-model="state.about"
-				class="w-full"
-			/>
+			<UTextarea v-model="state.about" class="w-full" />
 		</UFormField>
-		<UButton
-			type="submit"
-			label="Submeter"
-		/>
+		<NuxtTurnstile v-model="token" />
+		<UButton type="submit" label="Submeter" />
 	</UForm>
 </template>

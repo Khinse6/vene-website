@@ -6,5 +6,6 @@
 	"singleQuote": true,
 	"plugins": ["prettier-plugin-tailwindcss"],
 	"vueIndentScriptAndStyle": true,
-	"singleAttributePerLine": true
+	"singleAttributePerLine": false,
+	"printWidth": 80
 }
