@@ -4,4 +4,3 @@
 		<slot />
 	</UContainer>
 </template>
-

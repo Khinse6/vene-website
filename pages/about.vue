@@ -117,6 +117,7 @@
 		<p class="pb-8 font-bold">Call Out your Vengeance</p>
 	</section>
 	<UForm
+		id="form"
 		class="space-y-4"
 		:schema="mainSchema"
 		:state="state"
