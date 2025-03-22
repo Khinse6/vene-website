@@ -6,8 +6,8 @@ export default defineEventHandler(async (event) => {
 	try {
 		const body = await readBody(event)
 		const client = await serverSupabaseClient(event)
-
-		const isValid = await verifyTurnstileToken(body.token)
+		const isValid = await verifyTurnstileToken(body.token || body['cf-turnstile-response'])
+		console.log(isValid)
 		if (!isValid.success) {
 			throw createError({
 				statusCode: 400,
