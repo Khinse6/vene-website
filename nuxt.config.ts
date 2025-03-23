@@ -20,8 +20,6 @@ export default defineNuxtConfig({
 	css: ['~/assets/css/main.css'],
 	supabase: {
 		redirect: false,
-		url: 'https://yljjibigqmkpxazmlgvf.supabase.co',
-		key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlsamppYmlncW1rcHhhem1sZ3ZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk0NTM5ODEsImV4cCI6MjA1NTAyOTk4MX0.u80uTRlT_NKafp57hRcgtzTOAWlhWP4hk0GC6fhNVtY',
 	},
 	fonts: {
 		experimental: {
@@ -40,5 +38,4 @@ export default defineNuxtConfig({
 		name: 'Vengeance Experts',
 		language: 'pt',
 	},
-	turnstile: {siteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY, secretKey: process.env.NUXT_TURNSTILE_SECRET_KEY}
 })

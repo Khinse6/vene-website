@@ -1,5 +1,6 @@
 <script setup lang="ts">
 	import type { FormSubmitEvent, TableColumn } from '@nuxt/ui'
+	import { H3Error } from 'h3'
 	const { data: availableGames } = await useAsyncData('available-games', () =>
 		$fetch('/api/availableGames')
 	)
@@ -63,26 +64,28 @@
 			})
 
 			if (error.value) {
-				throw new Error(error.value.message || 'Unknown error')
+				throw createError({
+					statusCode: error.value.statusCode || 500,
+					statusMessage: error.value.statusMessage || 'Unknown error',
+				})
 			}
 
-			const result = data.value
 			toast.add({
-				title: result?.success ? 'Success' : 'Failed',
-				description: result?.message,
-				color: result?.success ? 'success' : 'error',
+				title: 'Success',
+				description: data.value?.message,
+				color: 'success',
 			})
 		} catch (error) {
 			let errorMessage = 'An unknown error occurred.'
 
-			if (error instanceof Error) {
+			if (error instanceof H3Error) {
+				errorMessage = `Error ${error.statusCode}: ${error.statusMessage}`
+			} else if (error instanceof Error) {
 				errorMessage = error.message
-			} else if (typeof error === 'string') {
-				errorMessage = error
 			}
 
 			toast.add({
-				title: 'Error',
+				title: 'Failed',
 				description: errorMessage,
 				color: 'error',
 			})

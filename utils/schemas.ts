@@ -34,6 +34,7 @@ export const mainSchema = z.object({
 	about: z.string().min(10),
 	comp: z.boolean().default(false),
 	games: z.array(gameSchema),
+	experience: z.string().optional(),
 	week: z
 		.array(daySchema)
 		.length(7)

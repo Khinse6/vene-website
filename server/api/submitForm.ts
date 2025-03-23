@@ -1,24 +1,35 @@
-import { defineEventHandler, readBody, sendError, createError } from 'h3'
+import {
+	defineEventHandler,
+	readBody,
+	sendError,
+	createError,
+	H3Error,
+} from 'h3'
 import { mainSchema } from '~/utils/schemas'
-import { serverSupabaseClient } from '#supabase/server'
+import { serverSupabaseServiceRole } from '#supabase/server'
 
 export default defineEventHandler(async (event) => {
 	try {
-		const body = await readBody(event)
-		const client = await serverSupabaseClient(event)
-		const isValid = await verifyTurnstileToken(body.token || body['cf-turnstile-response'])
-		console.log(isValid)
+		const { token, ...formData } = await readBody(event)
+		const client = await serverSupabaseServiceRole(event)
+		const isValid = await verifyTurnstileToken(token)
 		if (!isValid.success) {
 			throw createError({
 				statusCode: 400,
 				statusMessage: 'CAPTCHA verification failed',
 			})
 		}
+		const result = mainSchema.safeParse(formData)
 
-		const { token, ...formData } = body
-		const validatedData = mainSchema.parse(formData)
+		if (!result.success) {
+			console.log(result.error)
+			throw createError({
+				statusCode: 400,
+				statusMessage: 'Invalid Form data',
+			})
+		}
 
-		const { error } = await client.from('forms').insert(validatedData)
+		const { error } = await client.from('forms').insert(result.data)
 		if (error) {
 			throw createError({
 				statusCode: 500,
@@ -30,10 +41,16 @@ export default defineEventHandler(async (event) => {
 			success: true,
 			message: 'Form submitted successfully',
 		}
-	} catch (error: any) {
-		return sendError(event, createError({
-			statusCode: error.statusCode || 500,
-			statusMessage: error.statusMessage || 'Unexpected server error',
-		}))
+	} catch (error) {
+		return sendError(
+			event,
+			createError({
+				statusCode: error instanceof H3Error ? error.statusCode : 500,
+				statusMessage:
+					error instanceof H3Error
+						? error.statusMessage
+						: 'Unexpected server error',
+			})
+		)
 	}
 })
