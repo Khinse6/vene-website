@@ -18,9 +18,6 @@ export default defineNuxtConfig({
 		colorMode: false,
 	},
 	css: ['~/assets/css/main.css'],
-	supabase: {
-		redirect: false,
-	},
 	fonts: {
 		experimental: {
 			processCSSVariables: true,
@@ -37,5 +34,17 @@ export default defineNuxtConfig({
 		url: 'https://vengeance-experts.nuxt.dev/',
 		name: 'Vengeance Experts',
 		language: 'pt',
+	},
+	runtimeConfig: {
+		turnstile: { secretKey: process.env.NUXT_TURNSTILE_SECRET_KEY },
+		supabase: { serviceKey: process.env.SUPABASE_SERVICE_KEY },
+		public: {
+			turnstile: { siteKey: process.env.NUXT_PUBLIC_TURNSTILE_SITE_KEY },
+			supabase: {
+				url: process.env.SUPABASE_URL,
+				key: process.env.SUPABASE_KEY,
+				redirect: false,
+			},
+		},
 	},
 })

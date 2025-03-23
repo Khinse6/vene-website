@@ -22,7 +22,6 @@ export default defineEventHandler(async (event) => {
 		const result = mainSchema.safeParse(formData)
 
 		if (!result.success) {
-			console.log(result.error)
 			throw createError({
 				statusCode: 400,
 				statusMessage: 'Invalid Form data',

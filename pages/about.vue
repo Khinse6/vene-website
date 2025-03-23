@@ -63,7 +63,7 @@
 				},
 			})
 
-			if (error.value) {
+			if (!data.value?.success && error.value) {
 				throw createError({
 					statusCode: error.value.statusCode || 500,
 					statusMessage: error.value.statusMessage || 'Unknown error',
