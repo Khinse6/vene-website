@@ -5,7 +5,8 @@
 	"packageManager": "pnpm@10.6.3+sha512.bb45e34d50a9a76e858a95837301bfb6bd6d35aea2c5d52094fa497a467c43f5c440103ce2511e9e0a2f89c3d6071baac3358fc68ac6fb75e2ceb3d2736065e6",
 	"scripts": {
 		"build": "nuxt build",
-		"deploy": "nuxthub deploy",
+		"deploy": "npx nuxthub deploy",
+		"preview": "npx nuxthub preview",
 		"dev": "nuxt dev",
 		"dev:host": "nuxt dev --host",
 		"dev:tunnel": "nuxt dev --tunnel",
@@ -14,7 +15,6 @@
 		"format": "prettier . --write",
 		"lint": "eslint",
 		"lint:fix": "eslint --fix",
-		"preview": "nuxt preview",
 		"start": "nuxt start",
 		"clean": "nuxi cleanup",
 		"gen-types": "supabase gen types typescript --project-id \"yljjibigqmkpxazmlgvf\" --schema public > types/database.types.ts"

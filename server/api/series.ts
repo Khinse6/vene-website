@@ -30,45 +30,41 @@ export default defineEventHandler(async (event) => {
 	const { limit } = getQuery(event)
 	const parsedLimit = limit ? parseInt(limit as string, 10) : null
 
-	try {
-		const upcomingQuery = createSeriesQuery(
-			client,
-			currentDate,
-			parsedLimit,
-			'gt',
-			true
-		)
-		const pastQuery = createSeriesQuery(
-			client,
-			currentDate,
-			parsedLimit,
-			'lte',
-			false
-		)
+	const upcomingQuery = createSeriesQuery(
+		client,
+		currentDate,
+		parsedLimit,
+		'gt',
+		true
+	)
+	const pastQuery = createSeriesQuery(
+		client,
+		currentDate,
+		parsedLimit,
+		'lte',
+		false
+	)
 
-		const { data: upcomingData, error: upcomingError } = await upcomingQuery
-		const { data: pastData, error: pastError } = await pastQuery
+	const {
+		data: upcomingData,
+		error: upcomingError,
+		status: upcomingStatus,
+		statusText: upcomingStatusText,
+	} = await upcomingQuery
+	const { data: pastData, error: pastError } = await pastQuery
 
-		if (upcomingError) {
-			throw createError({
-				statusCode: 500,
-				statusMessage: upcomingError.message,
-			})
-		}
-		if (pastError) {
-			throw createError({ statusCode: 500, statusMessage: pastError.message })
-		}
+	if (upcomingError) {
+		throw createError({
+			statusCode: upcomingStatus,
+			statusMessage: upcomingStatusText,
+		})
+	}
+	if (pastError) {
+		throw createError({ statusCode: 500, statusMessage: pastError.message })
+	}
 
-		return {
-			upcomingSeries: upcomingData || [],
-			pastSeries: pastData || [],
-		}
-	} catch (error) {
-		return sendError(
-			event,
-			error instanceof Error
-				? error
-				: createError({ statusCode: 500, statusMessage: 'An error occurred' })
-		)
+	return {
+		upcomingSeries: upcomingData || [],
+		pastSeries: pastData || [],
 	}
 })

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 	import type { FormSubmitEvent, TableColumn } from '@nuxt/ui'
-	import { H3Error } from 'h3'
 	const { data: availableGames } = await useAsyncData('available-games', () =>
 		$fetch('/api/availableGames')
 	)
@@ -52,7 +51,7 @@
 	async function onSubmit(formEvent: FormSubmitEvent<Schema>) {
 		const toast = useToast()
 		try {
-			const { data, error } = await useFetch('/api/submitForm', {
+			const data = await $fetch('/api/submitForm', {
 				method: 'POST',
 				body: {
 					...formEvent.data,
@@ -63,30 +62,19 @@
 				},
 			})
 
-			if (!data.value?.success && error.value) {
-				throw createError({
-					statusCode: error.value.statusCode || 500,
-					statusMessage: error.value.statusMessage || 'Unknown error',
-				})
-			}
-
 			toast.add({
-				title: 'Success',
-				description: data.value?.message,
+				title: 'Sucesso',
+				description: data.message,
 				color: 'success',
 			})
-		} catch (error) {
-			let errorMessage = 'An unknown error occurred.'
+		} catch (e) {
 
-			if (error instanceof H3Error) {
-				errorMessage = `Error ${error.statusCode}: ${error.statusMessage}`
-			} else if (error instanceof Error) {
-				errorMessage = error.message
-			}
+			const error = e as { statusMessage?: string; message?: string }
 
 			toast.add({
-				title: 'Failed',
-				description: errorMessage,
+				title: 'Falha ao submeter formulário',
+				description:
+					error.statusMessage || error.message || 'Erro desconhecido',
 				color: 'error',
 			})
 		}
