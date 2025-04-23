@@ -1,7 +1,7 @@
 <script setup lang="ts">
-	const { data: series } = await useAsyncData('series', () =>
-		$fetch('/api/series?limit=3')
-	)
+	const { data: series } = await useFetch('/api/series', {
+		params: { limit: 3 },
+	})
 </script>
 
 <template>

@@ -1,70 +1,38 @@
-import { defineEventHandler, sendError, createError, getQuery } from 'h3'
+import { defineEventHandler, createError, getQuery } from 'h3'
 import { serverSupabaseClient } from '#supabase/server'
 import type { SupabaseClient } from '@supabase/supabase-js'
 
-const createSeriesQuery = (
+const fetchSeries = async (
 	client: SupabaseClient,
-	currentDate: string,
-	limit: number | null,
-	dateFilter: 'gt' | 'lte',
-	orderDirection: boolean
+	date: string,
+	limit: number,
+	filter: 'gt' | 'lte',
+	ascending: boolean
 ) => {
-	let query = client
+	const { data, error, status, statusText } = await client
 		.from('series')
 		.select('*, home_team(*, logo(*)), away_team(*, logo(*)), game(*)')
-		.order('date', { ascending: orderDirection })
+		.order('date', { ascending })
+		[filter]('date', date)
+		.limit(limit)
 
-	query = query[dateFilter]('date', currentDate)
-
-	if (limit) {
-		query = query.limit(limit)
+	if (error) {
+		throw createError({ statusCode: status, statusMessage: statusText })
 	}
 
-	return query
+	return data ?? []
 }
 
 export default defineEventHandler(async (event) => {
 	const client = await serverSupabaseClient(event)
+	const { limit } = getQuery(event) as { limit: string }
+	const parsedLimit = parseInt(limit, 10) || 0
 	const currentDate = new Date().toISOString()
 
-	const { limit } = getQuery(event)
-	const parsedLimit = limit ? parseInt(limit as string, 10) : null
+	const [upcomingSeries, pastSeries] = await Promise.all([
+		fetchSeries(client, currentDate, parsedLimit, 'gt', true),
+		fetchSeries(client, currentDate, parsedLimit, 'lte', false),
+	])
 
-	const upcomingQuery = createSeriesQuery(
-		client,
-		currentDate,
-		parsedLimit,
-		'gt',
-		true
-	)
-	const pastQuery = createSeriesQuery(
-		client,
-		currentDate,
-		parsedLimit,
-		'lte',
-		false
-	)
-
-	const {
-		data: upcomingData,
-		error: upcomingError,
-		status: upcomingStatus,
-		statusText: upcomingStatusText,
-	} = await upcomingQuery
-	const { data: pastData, error: pastError } = await pastQuery
-
-	if (upcomingError) {
-		throw createError({
-			statusCode: upcomingStatus,
-			statusMessage: upcomingStatusText,
-		})
-	}
-	if (pastError) {
-		throw createError({ statusCode: 500, statusMessage: pastError.message })
-	}
-
-	return {
-		upcomingSeries: upcomingData || [],
-		pastSeries: pastData || [],
-	}
+	return { upcomingSeries, pastSeries }
 })

@@ -1,11 +1,6 @@
 <script setup lang="ts">
 	const currentSlug = useRoute().params.slug as string
-	const { data: team } = await useAsyncData(`${currentSlug}`, () =>
-		$fetch(`/api/teams/${currentSlug}`)
-	)
-	const { data: series } = await useAsyncData(`${currentSlug}-series`, () =>
-		$fetch('/api/series')
-	)
+	const { data: team } = await useFetch(`/api/teams/${currentSlug}`)
 </script>
 
 <template>
