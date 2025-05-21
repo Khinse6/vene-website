@@ -3,7 +3,13 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
 	ssr: true,
-	compatibilityDate: '2024-12-20',
+	compatibilityDate: '2025-05-18',
+	future: {
+		compatibilityVersion: 4,
+	},
+	routeRules: {
+		'/admin/**': { robots: false },
+	},
 	modules: [
 		'@nuxtjs/seo',
 		'@nuxt/ui',
@@ -13,6 +19,7 @@ export default defineNuxtConfig({
 		'@nuxtjs/supabase',
 		'@nuxthub/core',
 		'@nuxtjs/turnstile',
+		'@pinia/nuxt',
 	],
 	ui: {
 		colorMode: false,
@@ -29,7 +36,7 @@ export default defineNuxtConfig({
 			allowedHosts: true,
 		},
 	},
-	imports: { dirs: ['types'] },
+	imports: { dirs: ['./types'] },
 	site: {
 		url: 'https://vengeance-experts.nuxt.dev/',
 		name: 'Vengeance Experts',

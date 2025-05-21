@@ -1,0 +1,90 @@
+@import 'tailwindcss';
+@import '@nuxt/ui';
+
+:root {
+	--ui-text-dimmed: var(--ui-color-neutral-500);
+	--ui-text-muted: var(--ui-color-neutral-400);
+	--ui-text-toned: var(--ui-color-neutral-300);
+	--ui-text: var(--ui-color-neutral-200);
+	--ui-text-highlighted: var(--color-white);
+	--ui-text-inverted: var(--ui-color-neutral-900);
+
+	--ui-bg: var(--ui-color-neutral-900);
+	--ui-bg-muted: var(--ui-color-neutral-800);
+	--ui-bg-elevated: var(--ui-color-neutral-800);
+	--ui-bg-accented: var(--ui-color-neutral-700);
+	--ui-bg-inverted: var(--color-white);
+
+	--ui-border: var(--ui-color-neutral-800);
+	--ui-border-muted: var(--ui-color-neutral-700);
+	--ui-border-accented: var(--ui-color-neutral-700);
+	--ui-border-inverted: var(--color-white);
+}
+
+@theme static {
+	--color-venegray1: #1d2427;
+	--color-venegray2: #283338;
+	--font-goldman: 'Goldman', 'sans-serif';
+
+	--color-minsk-50: oklch(71.051% 0.11186 303.27);
+	--color-minsk-100: oklch(67.086% 0.12757 302.62);
+	--color-minsk-200: oklch(59.081% 0.16003 301.26);
+	--color-minsk-300: oklch(51.426% 0.1893 299.14);
+	--color-minsk-400: oklch(45.504% 0.17248 298.82);
+	--color-minsk-500: oklch(39.493% 0.14626 299);
+	--color-minsk-600: oklch(30.865% 0.10923 299.31);
+	--color-minsk-700: oklch(21.724% 0.06501 300.03);
+	--color-minsk-800: oklch(10.732% 0.02001 301.96);
+	--color-minsk-900: oklch(0% 0 none);
+	--color-minsk-950: oklch(0% 0 none);
+
+	--color-anakiwa-50: #ecfcff;
+	--color-anakiwa-100: #d0f6fd;
+	--color-anakiwa-200: #91e6fa;
+	--color-anakiwa-300: #69dbf7;
+	--color-anakiwa-400: #24c0ec;
+	--color-anakiwa-500: #08a2d2;
+	--color-anakiwa-600: #0a82b0;
+	--color-anakiwa-700: #10688e;
+	--color-anakiwa-800: #165574;
+	--color-anakiwa-900: #174762;
+	--color-anakiwa-950: #092e43;
+}
+
+@layer base {
+	*,
+	::after,
+	::before,
+	::backdrop,
+	::file-selector-button {
+		border-color: var(--color-gray-200, currentColor);
+	}
+	html {
+		scroll-behavior: smooth;
+		scroll-padding-top: 6rem;
+	}
+	body {
+		min-height: 100vh;
+	}
+}
+
+@layer components {
+	.main-gradient {
+		background:
+			linear-gradient(
+				to bottom,
+				color-mix(in oklch, var(--ui-primary) 0%, transparent) 0%,
+				color-mix(in oklch, var(--ui-primary) 65%, transparent) 100%
+			),
+			black;
+	}
+	.footer-gradient {
+		background:
+			linear-gradient(
+				to top,
+				color-mix(in oklch, var(--ui-primary) 0%, transparent) 0%,
+				color-mix(in oklch, var(--ui-primary) 65%, transparent) 100%
+			),
+			black;
+	}
+}
