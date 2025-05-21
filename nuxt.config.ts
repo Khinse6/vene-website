@@ -7,6 +7,17 @@ export default defineNuxtConfig({
 	future: {
 		compatibilityVersion: 4,
 	},
+	app: {
+		head: {
+			link: [
+				{
+					rel: 'icon',
+					type: 'image/x-icon',
+					href: '/logos/svg/emblem-purple.svg',
+				},
+			],
+		},
+	},
 	routeRules: {
 		'/admin/**': { robots: false },
 	},
