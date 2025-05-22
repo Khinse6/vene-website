@@ -11,7 +11,9 @@ const fetchSeries = async (
 ) => {
 	const { data, error, status, statusText } = await client
 		.from('series')
-		.select('*, home_team(*, logo(*)), away_team(*, logo(*)), game(*)')
+		.select(
+			'name, date, home_score, away_score, home_team(name, logo), away_team(name, logo), game(name)'
+		)
 		.order('date', { ascending })
 		[filter]('date', date)
 		.limit(limit)

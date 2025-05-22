@@ -8,9 +8,9 @@
 		class="flex w-full flex-wrap justify-center gap-5 pb-10"
 	>
 		<TeamCard
-			v-for="t in teams"
-			:key="t.slug"
-			:team="t"
+			v-for="item in teams"
+			:key="item.slug"
+			:team="item"
 		/>
 	</section>
 	<UButton

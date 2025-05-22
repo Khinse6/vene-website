@@ -1,7 +1,9 @@
-// Header Links
-
 import type { NavigationMenuItem } from '@nuxt/ui'
 
+export const SupabaseImgUrl =
+	'https://yljjibigqmkpxazmlgvf.supabase.co/storage/v1/object/public/img'
+
+// Header Links
 export const HeaderLinks: NavigationMenuItem[] = [
 	{ label: 'Home', to: '/' },
 	{ label: 'Equipas', to: '/teams' },
@@ -56,8 +58,31 @@ export const SocialLinks: NavigationMenuItem[] = [
 	}, */
 ]
 
-/* export const Sponsors = [
+export const Sponsors = [
 	{ src: '/sponsors/saga-fuel.svg', href: 'https://sagafuel.com' },
 	{ src: '/sponsors/bamboo-munch.svg', href: 'https://bamboomunch.com' },
 	{ src: '/sponsors/key-drop.svg', href: 'https://key-drop.com' },
-] */
+]
+
+export const BrandImages = [
+	{
+		emblem: '/logos/svg/emblem-purple.svg',
+		horizontal: '/logos/svg/horizontal-purple.svg',
+		vertical: '/logos/svg/vertical-purple.svg',
+	},
+	{
+		emblem: '/logos/svg/emblem-wp.svg',
+		horizontal: '/logos/svg/horizontal-wp.svg',
+		vertical: '/logos/svg/vertical-wp.svg',
+	},
+	{
+		emblem: '/logos/svg/emblem-black.svg',
+		horizontal: '/logos/svg/horizontal-black.svg',
+		vertical: '/logos/svg/vertical-black.svg',
+	},
+	{
+		emblem: '/logos/svg/emblem-white.svg',
+		horizontal: '/logos/svg/horizontal-white.svg',
+		vertical: '/logos/svg/vertical-white.svg',
+	},
+]

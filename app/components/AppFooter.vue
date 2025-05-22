@@ -1,11 +1,3 @@
-<script setup lang="ts">
-	const Sponsors = [
-		{ src: '/sponsors/saga-fuel.svg', href: 'https://sagafuel.com' },
-		{ src: '/sponsors/bamboo-munch.svg', href: 'https://bamboomunch.com' },
-		{ src: '/sponsors/key-drop.svg', href: 'https://key-drop.com' },
-	]
-</script>
-
 <template>
 	<footer class="footer-gradient font-goldman text-white">
 		<UContainer class="flex justify-between py-10">

@@ -53,6 +53,14 @@ export default defineNuxtConfig({
 		name: 'Vengeance Experts',
 		language: 'pt',
 	},
+	nitro: {
+		experimental: {
+			openAPI: true,
+		},
+	},
+	image: {
+		domains: ['yljjibigqmkpxazmlgvf.supabase.co'],
+	},
 	runtimeConfig: {
 		turnstile: { secretKey: process.env.NUXT_TURNSTILE_SECRET_KEY },
 		supabase: { serviceKey: process.env.SUPABASE_SERVICE_KEY },

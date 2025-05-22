@@ -6,10 +6,7 @@ export default defineEventHandler(async (event) => {
 
 	const { data, error, status, statusText } = await client
 		.from('teams')
-		.select(
-			'id, name, slug, cover:images!Team_cover_fkey(url, alt_txt), members(nick)'
-		)
-		.ilike('slug', '%vengeance%')
+		.select('name, slug, cover')
 
 	if (error) {
 		throw createError({

@@ -2,8 +2,8 @@
 	const props = defineProps<{
 		serie: Tables<'series'> & {
 			game: Tables<'games'> | null
-			home_team: (Tables<'teams'> & { logo: Tables<'images'> | null }) | null
-			away_team: (Tables<'teams'> & { logo: Tables<'images'> | null }) | null
+			home_team: Tables<'teams'>
+			away_team: Tables<'away_teams'>
 		}
 	}>()
 
@@ -42,11 +42,11 @@
 		<div class="relative flex flex-col items-center py-5">
 			<div class="grid w-2/3 min-w-72 grid-cols-3 place-items-center">
 				<NuxtImg
-					v-if="serie.home_team?.logo?.url && serie.home_team?.logo?.alt_txt"
+					v-if="serie.home_team?.logo"
 					class="aspect-square h-16 object-contain lg:h-20"
-					:src="serie.home_team?.logo?.url"
-					:alt="serie.home_team?.logo?.alt_txt"
-					format="webp"
+					:src="`${SupabaseImgUrl}/logos/${serie.home_team?.logo}`"
+					:alt="serie.home_team?.name"
+					format="avif"
 				/>
 
 				<p class="font-goldman text-2xl font-bold">
@@ -58,10 +58,11 @@
 				</p>
 
 				<NuxtImg
+					v-if="serie.away_team?.logo"
 					class="aspect-square h-16 object-contain lg:h-20"
-					:src="serie.away_team?.logo?.url ?? undefined"
-					:alt="serie.away_team?.logo?.alt_txt ?? undefined"
-					format="webp"
+					:src="`${SupabaseImgUrl}/logos/${serie.away_team?.logo}`"
+					:alt="serie.away_team?.name"
+					format="avif"
 				/>
 			</div>
 
